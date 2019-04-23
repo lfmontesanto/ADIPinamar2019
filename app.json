@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "PelisPedio",
-    "slug": "pelispedio.com",
+    "slug": "pelispedio",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [
