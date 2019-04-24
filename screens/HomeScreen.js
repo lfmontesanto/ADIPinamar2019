@@ -1,11 +1,8 @@
 import React from 'react';
-import {
-  Image,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { Image, StyleSheet, Text, View, ScrollView } from 'react-native';
+import DetailCard from '../components/DetailCard';
 
+import Movies from '../constants/Movies';
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
@@ -13,19 +10,22 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={
-                __DEV__
-                  ? require('../assets/images/robot-dev.png')
-                  : require('../assets/images/robot-prod.png')
-              }
-              style={styles.welcomeImage}
-            />
-            <Text style={styles.getStartedText}>
-              TPO AD Pinamar
-            </Text>
-          </View>
+        <View style={styles.welcomeContainer}>
+          <Image
+            source={ require('../assets/images/robot-dev.png')}
+            style={styles.welcomeImage}
+          />
+          <Text style={styles.getStartedText}>
+            TPO AD Pinamar
+          </Text>
+        </View>
+        <ScrollView>
+          {
+            Movies.map((movie, index) => (
+              <DetailCard movie={ movie } key={ index }></DetailCard>
+            ))
+          }
+        </ScrollView>
       </View>
     );
   }
