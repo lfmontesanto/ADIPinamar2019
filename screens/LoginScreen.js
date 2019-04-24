@@ -32,14 +32,12 @@ class Inputs extends Component {
               placeholderTextColor = "#9a73ef"
               autoCapitalize = "none"
               onChangeText = {this.handleEmail}/>
-          
           <TextInput style = {styles.input}
               underlineColorAndroid = "transparent"
               placeholder = "Password"
               placeholderTextColor = "#9a73ef"
               autoCapitalize = "none"
               onChangeText = {this.handlePassword}/>
-          
           <TouchableOpacity
               style = {styles.submitButton}
               onPress = {

@@ -1,11 +1,8 @@
-import React from 'react';
-import { Platform } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 
 import LoginScreen from '../screens/LoginScreen';
 import HomeTabs from '../screens/HomeTabs';
 import RegisterScreen from '../screens/RegisterScreen';
-import SearchHeader from '../screens/SearchHeader';
 
 const HomeStack = createStackNavigator({
   Login: LoginScreen,

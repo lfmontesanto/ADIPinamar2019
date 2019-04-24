@@ -1,12 +1,10 @@
 import React from 'react';
-import {
-  Image,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import SearchHeader from './SearchHeader'
+import { StyleSheet, View } from 'react-native';
 
+import SearchHeader from './SearchHeader'
+import ShowsList from '../components/ShowsList';
+
+import Series from '../constants/Movies';
 
 export default class SecondScreen extends React.Component {
   static navigationOptions = {
@@ -14,21 +12,9 @@ export default class SecondScreen extends React.Component {
   };
   render() {
     return (
-      <View style={styles.container}>
-          <SearchHeader style= {styles.searchContainer}/>
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={
-                __DEV__
-                  ? require('../assets/images/robot-dev.png')
-                  : require('../assets/images/robot-prod.png')
-              }
-              style={styles.welcomeImage}
-            />
-            <Text style={styles.getStartedText}>
-             Segunda Pantalla
-            </Text>
-          </View>
+      <View style={ styles.container }>
+          <SearchHeader style={ styles.searchContainer }/>
+          <ShowsList shows={ Series }/>
       </View>
     );
   }
