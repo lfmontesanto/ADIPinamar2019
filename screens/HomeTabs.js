@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { createMaterialTopTabNavigator, createAppContainer } from 'react-navigation';
  
 import HomeScreen from './HomeScreen';
@@ -17,12 +15,8 @@ export const HomeTabs = createMaterialTopTabNavigator(
     tabBarOptions: {
       activeTintColor: '#FFFFFF',
       inactiveTintColor: '#F8F8F8',
-      style: {
-        backgroundColor: '#633689',
-      },
-      labelStyle: {
-        textAlign: 'center',
-      },
+      style:{ backgroundColor: '#633689' },
+      labelStyle:{ textAlign: 'center' },
       indicatorStyle: {
         borderBottomColor: '#87B56A',
         borderBottomWidth: 2,
