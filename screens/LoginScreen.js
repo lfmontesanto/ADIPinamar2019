@@ -47,7 +47,7 @@ class Inputs extends Component {
                    if(this.state.email=='carina'){
                       //success
                   this.login(this.state.email)
-                  navigate('Home')
+                  navigate('HomeTabs')
                 }else{
                    this.loginError(this.state.email)}
                 }
@@ -71,8 +71,6 @@ class Inputs extends Component {
               }>
               <Text style = {styles.registerButtonText}> Register </Text>
           </TouchableOpacity>
-
-
        
         </View>
       )
