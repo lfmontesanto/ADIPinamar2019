@@ -29,10 +29,5 @@ const styles = StyleSheet.create({
   searchContainer: {
     alignItems: 'center',
     marginBottom: 10,
-  },
-  welcomeContainer: {
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
-  },
+  }
 });
