@@ -7,14 +7,13 @@ import {
  
 import HomeScreen from './HomeScreen';
 import SecondScreen from './SecondScreen'
-import AppNavigator from '../navigation/AppNavigator';
-//Making TabNavigator which will be called in App StackNavigator
-//we can directly export the TabNavigator also but header will not be visible
-//as header comes only when we put anything into StackNavigator and then export
+import SearchHeader from './SearchHeader';
+
+
 export const HomeTabs = createMaterialTopTabNavigator(
   {
-    Feed: { screen: HomeScreen},
-    Setttings: { screen: SecondScreen},
+    Movies: { screen: HomeScreen},
+    Series: { screen: SecondScreen},
   },
   {
     tabBarPosition: 'top',
@@ -34,7 +33,7 @@ export const HomeTabs = createMaterialTopTabNavigator(
         borderBottomWidth: 2,
       },
     },
-  }
+  },
 );
 export default createAppContainer(HomeTabs);
 

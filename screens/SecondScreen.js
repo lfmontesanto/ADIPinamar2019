@@ -5,6 +5,8 @@ import {
   Text,
   View,
 } from 'react-native';
+import SearchHeader from './SearchHeader'
+
 
 export default class SecondScreen extends React.Component {
   static navigationOptions = {
@@ -13,6 +15,7 @@ export default class SecondScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+          <SearchHeader style= {styles.searchContainer}/>
           <View style={styles.welcomeContainer}>
             <Image
               source={
@@ -35,6 +38,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  searchContainer: {
+    alignItems: 'center',
+    marginBottom: 10,
   },
   welcomeContainer: {
     alignItems: 'center',

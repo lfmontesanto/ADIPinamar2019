@@ -5,6 +5,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import SearchHeader from './SearchHeader'
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -13,6 +14,7 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <SearchHeader style= {styles.searchContainer}/>
           <View style={styles.welcomeContainer}>
             <Image
               source={
@@ -33,8 +35,13 @@ export default class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection:'column',
     flex: 1,
     backgroundColor: '#fff',
+  },
+  searchContainer: {
+    alignItems: 'center',
+    marginBottom: 10,
   },
   welcomeContainer: {
     alignItems: 'center',

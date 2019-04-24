@@ -73,8 +73,6 @@ class Inputs extends Component {
               }>
               <Text style = {styles.registerButtonText}> Register </Text>
           </TouchableOpacity>
-
-
        
         </View>
       )
