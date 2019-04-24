@@ -14,7 +14,7 @@ const HomeStack = createStackNavigator({
         backgroundColor: '#633689',
       },
       headerTintColor: '#FFFFFF',
-      title: 'TabExample'
+      title: 'PelisPedio'
     }
   }
 });
