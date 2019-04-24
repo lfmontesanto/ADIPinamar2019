@@ -2,17 +2,19 @@ import React from 'react';
 
 import {
   createMaterialTopTabNavigator,
+  createAppContainer
 } from 'react-navigation';
  
-import HomeScreen from './screens/HomeScreen';
-import SecondPage from './screens/SecondPage';
+import HomeScreen from './HomeScreen';
+import SecondScreen from './SecondScreen'
+import AppNavigator from '../navigation/AppNavigator';
 //Making TabNavigator which will be called in App StackNavigator
 //we can directly export the TabNavigator also but header will not be visible
 //as header comes only when we put anything into StackNavigator and then export
-const HomeTabs = createMaterialTopTabNavigator(
+export const HomeTabs = createMaterialTopTabNavigator(
   {
-    Feed: { screen: HomeScreen },
-    Settings: { screen: SecondPage },
+    Feed: { screen: HomeScreen},
+    Setttings: { screen: SecondScreen},
   },
   {
     tabBarPosition: 'top',
@@ -34,4 +36,5 @@ const HomeTabs = createMaterialTopTabNavigator(
     },
   }
 );
- 
+export default createAppContainer(HomeTabs);
+
