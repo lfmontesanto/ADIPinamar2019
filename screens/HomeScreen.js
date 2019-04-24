@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, Text, View, ScrollView } from 'react-native';
-import DetailCard from '../components/DetailCard';
+import ShowsList from '../components/ShowsList';
 
 import Movies from '../constants/Movies';
 export default class HomeScreen extends React.Component {
@@ -19,13 +19,7 @@ export default class HomeScreen extends React.Component {
             TPO AD Pinamar
           </Text>
         </View>
-        <ScrollView>
-          {
-            Movies.map((movie, index) => (
-              <DetailCard movie={ movie } key={ index }></DetailCard>
-            ))
-          }
-        </ScrollView>
+        <ShowsList shows={ Movies }/>
       </View>
     );
   }
