@@ -91,7 +91,7 @@ class Inputs extends Component {
 
 
           <Text style={styles.getStartedText}>
-                           Already registered, go to login
+                           Already registered? go to login
             </Text>
 
 

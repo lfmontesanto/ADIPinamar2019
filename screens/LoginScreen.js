@@ -26,6 +26,14 @@ class Inputs extends Component {
     const {navigate} = this.props.navigation;
       return (
         <View style = {styles.container}>
+
+
+
+      <Text style={styles.getStartedText}>
+              PelisPedio
+            </Text>
+
+
           <TextInput style = {styles.input}
               underlineColorAndroid = "transparent"
               placeholder = "Email"
@@ -67,8 +75,8 @@ class Inputs extends Component {
               style = {styles.registerButton}
               onPress = {
                 () => {
-             
-                  navigate('Register')
+             // cambiar a register
+                  navigate('MovieDet')
                 }
               }>
               <Text style = {styles.registerButtonText}> Register </Text>
