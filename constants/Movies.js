@@ -12,7 +12,7 @@ export const Movies = [
   {
     title: 'Las Locuras del Emperador',
     genre: [ 'Drama', 'Medieval' ],
-    coverSource: 'https://upload.wikimedia.org/wikipedia/en/4/4d/Avengers_Infinity_War_poster.jpg',
+    coverSource: 'https://ojarbol.files.wordpress.com/2012/06/018858.jpg',
     score: 8.8,
     year: '1987',
     director: 'El Director',
@@ -22,7 +22,7 @@ export const Movies = [
   {
     title: 'Lemony Snicket, una serie de eventos desafortunados',
     genre: [ 'Romántica', 'Action' ],
-    coverSource: 'https://upload.wikimedia.org/wikipedia/en/4/4d/Avengers_Infinity_War_poster.jpg',
+    coverSource: 'https://images-na.ssl-images-amazon.com/images/I/51L009b1j0L._SY445_.jpg',
     score: 4.0,
     year: '2016',
     director: 'La Directora',
