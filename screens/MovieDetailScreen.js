@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
-import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, ScrollView } from 'react-native';
 
+import DetailCard from '../components/DetailCard';
+
+import Movies from '../constants/Movies';
 
 class Inputs extends Component
 {
@@ -12,6 +15,18 @@ class Inputs extends Component
     return (
 
       <View style = {styles.container}>
+
+      
+
+        <ScrollView>
+          {
+            Movies.map((movie, index) => (
+              <DetailCard movie={ movie } key={ index }></DetailCard>
+            ))
+          }
+        </ScrollView>
+
+
 
 
         <TouchableOpacity

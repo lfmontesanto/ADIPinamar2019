@@ -19,6 +19,22 @@ class Inputs extends Component {
       return (
         <View style = {styles.container}>
 
+<Text style={styles.getStartedText}>
+              Score
+            </Text>
+
+            <TextInput style = {styles.input}
+              underlineColorAndroid = "transparent"
+              placeholder = "Valorate"
+              placeholderTextColor = "#9a73ef"
+              autoCapitalize = "none"
+              onChangeText = {this.handleScore}/>
+
+
+<Text style={styles.getStartedText}>
+            Please let us know your comments
+            </Text>
+
 
    <TextInput style = {styles.input}
               underlineColorAndroid = "transparent"
@@ -32,8 +48,11 @@ class Inputs extends Component {
               onPress = {
                 () => {
                   //guardar solo en el caso que haya completado el puntaje
+                  if (handleScore!=null){
                   alert('Thanks for your time!');
-                  navigate('MovieDet')
+                  navigate('MovieDet')}else{
+                     alert('Please, fill up the score');   
+                  }
                 }
               }>
               <Text style = {styles.saveButtonText}> Save Comment </Text>
