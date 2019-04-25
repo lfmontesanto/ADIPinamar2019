@@ -1,12 +1,12 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import DetailCard from './DetailCard';
 
 export default class ShowsList extends React.Component {
   render() {
     const navigation = this.props.navigation;
     return (
-      <ScrollView>
+      <ScrollView style={ styles.mainContainer }>
         {
           this.props.shows.map((show, index) => (
             <DetailCard show={ show } key={ index } navigation={ navigation }></DetailCard>
@@ -16,3 +16,9 @@ export default class ShowsList extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    marginTop: 15
+  }
+})

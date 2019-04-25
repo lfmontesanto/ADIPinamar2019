@@ -1,18 +1,17 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, Image, StyleSheet } from 'react-native'
 
+import Reviews from '../constants/Reviews';
+
 export default class DetailCard extends React.Component {
-  navShowScree(show) {
-  }
   render() {
     const show = this.props.show;
     const navigation = this.props.navigation;
-    console.log(show)
     return (
       <TouchableOpacity
         style={ styles.mainContainer }
         onPress={() => {
-          navigation.navigate('Show', { show } );
+          navigation.navigate('Show', { show, Reviews } );
         }}
       >
         <Image source={{ uri: show.coverSource }} style={ styles.cover }></Image>
@@ -48,7 +47,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    marginBottom: 5
   },
   mainText: {
     fontSize: 16,
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     flex: 1,
     flexWrap: 'wrap',
-    marginTop: 10
+    marginTop: 10,
+    textAlign: 'justify'
   }
 });
