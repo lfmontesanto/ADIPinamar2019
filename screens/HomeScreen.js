@@ -11,10 +11,11 @@ export default class HomeScreen extends React.Component {
     header: null,
   };
   render() {
+    const navigation = this.props.navigation;
     return (
       <View style={ styles.container }>
         <SearchHeader style={ styles.searchContainer }/>
-          <ShowsList shows={ Movies }/>
+          <ShowsList shows={ Movies } navigation={ navigation }/>
         </View>
     );
   }

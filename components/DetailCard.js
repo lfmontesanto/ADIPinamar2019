@@ -1,11 +1,20 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, TouchableOpacity, Text, Image, StyleSheet } from 'react-native'
 
 export default class DetailCard extends React.Component {
+  navShowScree(show) {
+  }
   render() {
     const show = this.props.show;
+    const navigation = this.props.navigation;
+    console.log(show)
     return (
-      <View style={ styles.mainContainer }>
+      <TouchableOpacity
+        style={ styles.mainContainer }
+        onPress={() => {
+          navigation.navigate('Show', { show } );
+        }}
+      >
         <Image source={{ uri: show.coverSource }} style={ styles.cover }></Image>
         <View style={ styles.descContainer }>
           <Text style={ styles.title }>{ show.title }</Text>
@@ -17,7 +26,7 @@ export default class DetailCard extends React.Component {
             numberOfLines={6}
           >{ show.description }</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }

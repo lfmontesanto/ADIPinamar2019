@@ -11,10 +11,11 @@ export default class SecondScreen extends React.Component {
     header: null,
   };
   render() {
+    const navigation = this.props.navigation;
     return (
       <View style={ styles.container }>
           <SearchHeader style={ styles.searchContainer }/>
-          <ShowsList shows={ Series }/>
+          <ShowsList shows={ Series } navigation={ navigation }/>
       </View>
     );
   }

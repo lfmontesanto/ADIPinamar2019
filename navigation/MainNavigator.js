@@ -1,8 +1,9 @@
 import { createStackNavigator } from 'react-navigation';
 
+import HomeTabs from './HomeTabs';
 import LoginScreen from '../screens/LoginScreen';
-import HomeTabs from '../screens/HomeTabs';
 import RegisterScreen from '../screens/RegisterScreen';
+import ShowScreen from '../screens/ShowScreen';
 
 const HomeStack = createStackNavigator({
   Login: LoginScreen,
@@ -16,7 +17,8 @@ const HomeStack = createStackNavigator({
       headerTintColor: '#FFFFFF',
       title: 'PelisPedio'
     }
-  }
+  },
+  Show: ShowScreen
 });
 
 export default HomeStack;
