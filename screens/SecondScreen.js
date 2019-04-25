@@ -13,6 +13,8 @@ export default class SecondScreen extends React.Component {
 
   render() {
     const api = ApiController;
+    const comment = {title:"Titanic2", username:"facu2", comment:"meh", score:"1"};
+    var obj = []
     return (
       <View style={ styles.container }>
           <SearchHeader style={ styles.searchContainer }/>
@@ -20,7 +22,7 @@ export default class SecondScreen extends React.Component {
           <TouchableOpacity
               style = {styles.submitButton}
               onPress = {() => { 
-                api.getEquipos().then((response) =>{
+                api.commentMovie(comment).then((response) =>{
                   console.log(response)
                 })
               } }
@@ -30,7 +32,10 @@ export default class SecondScreen extends React.Component {
       </View>
     );
   }
-
+  
+  setDataArray (response) {
+      
+  }
 
   
 }
