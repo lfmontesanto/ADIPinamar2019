@@ -89,7 +89,6 @@ class ApiController extends React.Component {
             body: JSON.stringify(user) // data can be `string` or {object}!
         }
         try {
-            
             let response = await fetch (urlCommentsByMovie,config);
             const data = await response.json();
             console.log("Usuario Actualizado")
@@ -107,7 +106,6 @@ class ApiController extends React.Component {
             body: JSON.stringify(comment) // data can be `string` or {object}!
         }
         try {
-            
             let response = await fetch (urlCommentsByMovie,config);
             const data = await response.json();
             console.log("Comentario guardado")
