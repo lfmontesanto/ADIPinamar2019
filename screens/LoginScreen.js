@@ -13,7 +13,7 @@ class Inputs extends Component {
       this.setState({ password: text })
    }
    login = (email) => {
-      alert('Login successfull '+'email: ' + email );
+      //alert('Login successfull '+'email: ' + email );
    }
 
 
@@ -44,7 +44,7 @@ class Inputs extends Component {
                 () => {
                    // Validate if user exist
                    //if (responde.data.code==200)
-                   if(this.state.email=='carina'){
+                   if(true){
                       //success
                   this.login(this.state.email)
                   navigate('HomeTabs')
