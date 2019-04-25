@@ -1,7 +1,7 @@
 import { createStackNavigator } from 'react-navigation';
 
 import LoginScreen from '../screens/LoginScreen';
-import HomeTabs from '../screens/HomeTabs';
+import HomeTabs from './HomeTabs';
 import RegisterScreen from '../screens/RegisterScreen';
 
 const HomeStack = createStackNavigator({

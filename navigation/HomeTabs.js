@@ -1,7 +1,7 @@
 import { createMaterialTopTabNavigator, createAppContainer } from 'react-navigation';
  
-import HomeScreen from './HomeScreen';
-import SecondScreen from './SecondScreen'
+import HomeScreen from '../screens/HomeScreen';
+import SecondScreen from '../screens/SecondScreen'
 
 export const HomeTabs = createMaterialTopTabNavigator(
   {

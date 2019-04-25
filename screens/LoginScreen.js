@@ -44,9 +44,9 @@ class Inputs extends Component {
                 () => {
                    // Validate if user exist
                    //if (responde.data.code==200)
-                   if(this.state.email=='carina'){
+                   if(true){
                       //success
-                  this.login(this.state.email)
+                  this.login()
                   navigate('HomeTabs')
                 }else{
                    this.loginError(this.state.email)}
@@ -75,6 +75,7 @@ class Inputs extends Component {
         </View>
       )
    }
+   
 }
 export default Inputs
 
