@@ -1,10 +1,13 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView, Text, Image } from 'react-native';
 
-export default class HomeScreen extends React.Component {
+import ReviewList from '../components/ReviewList';
+
+export default class ShowScreen extends React.Component {
   render() {
     const { navigation } = this.props;
     const show = navigation.getParam('show')
+    const reviews = navigation.getParam('Reviews')
     return (
       <ScrollView style={ styles.mainContainer }>
         <Image source={{ uri: show.coverSource }} style={ styles.cover }></Image>
@@ -18,8 +21,8 @@ export default class HomeScreen extends React.Component {
           <Text style={ styles.summary }>Sinopsis</Text>
           <Text style={ styles.description }>{ show.description }</Text>
         </View>
-        <View style={ styles.commentSection }>
-        </View>
+        <Text style={ styles.reviews }>Reseñas</Text>
+        <ReviewList reviews={ reviews }></ReviewList>
       </ScrollView>
     );
   }
@@ -30,8 +33,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   cover: {
-    height: 500,
-    marginBottom: 15
+    height: 500
   },
   descContainer: {
     flexDirection: 'column',
@@ -43,10 +45,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   title: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
+    textAlign: 'center',
     flexWrap: 'wrap',
-    marginBottom: 5
+    marginBottom: 15
   },
   textNormal: {
     fontSize: 16,
@@ -63,6 +66,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     flex: 1,
     flexWrap: 'wrap',
-    marginBottom: 15
-  }
+    marginBottom: 15,
+    textAlign: 'justify'
+  },
+  reviews: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 15,
+    marginLeft: 10
+  },
 });
