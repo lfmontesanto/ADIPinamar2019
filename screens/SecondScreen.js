@@ -1,21 +1,21 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React from "react";
+import { StyleSheet, View } from "react-native";
 
-import SearchHeader from './SearchHeader'
-import ShowsList from '../components/ShowsList';
+import SearchHeader from "./SearchHeader";
+import ShowsList from "../components/ShowsList";
 
-import Series from '../constants/Movies';
+import Series from "../constants/Movies";
 
 export default class SecondScreen extends React.Component {
   static navigationOptions = {
-    header: null,
+    header: null
   };
   render() {
     const navigation = this.props.navigation;
     return (
-      <View style={ styles.container }>
-          <SearchHeader style={ styles.searchContainer }/>
-          <ShowsList shows={ Series } navigation={ navigation }/>
+      <View style={styles.container}>
+        <SearchHeader style={styles.searchContainer} />
+        <ShowsList shows={Series} navigation={navigation} />
       </View>
     );
   }
@@ -24,10 +24,10 @@ export default class SecondScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff"
   },
   searchContainer: {
-    alignItems: 'center',
-    marginBottom: 10,
+    alignItems: "center",
+    marginBottom: 10
   }
 });

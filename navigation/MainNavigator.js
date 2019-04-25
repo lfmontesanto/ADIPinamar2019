@@ -1,9 +1,10 @@
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator } from "react-navigation";
 
-import HomeTabs from './HomeTabs';
-import LoginScreen from '../screens/LoginScreen';
-import RegisterScreen from '../screens/RegisterScreen';
-import ShowScreen from '../screens/ShowScreen';
+import HomeTabs from "./HomeTabs";
+import LoginScreen from "../screens/LoginScreen";
+import RegisterScreen from "../screens/RegisterScreen";
+import ShowScreen from "../screens/ShowScreen";
+import ReviewScreen from "../screens/ReviewScreen";
 
 const HomeStack = createStackNavigator({
   Login: LoginScreen,
@@ -12,13 +13,14 @@ const HomeStack = createStackNavigator({
     screen: HomeTabs,
     navigationOptions: {
       headerStyle: {
-        backgroundColor: '#633689',
+        backgroundColor: "#633689"
       },
-      headerTintColor: '#FFFFFF',
-      title: 'PelisPedio'
+      headerTintColor: "#FFFFFF",
+      title: "PelisPedio"
     }
   },
-  Show: ShowScreen
+  Show: ShowScreen,
+  Review: ReviewScreen
 });
 
 export default HomeStack;
