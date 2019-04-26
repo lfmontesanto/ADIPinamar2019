@@ -5,6 +5,8 @@ import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import ShowScreen from "../screens/ShowScreen";
 import ReviewScreen from "../screens/ReviewScreen";
+import ChangePasswordScreen from "../screens/ChangePasswordScreen";
+
 
 const HomeStack = createStackNavigator({
   Login: LoginScreen,
@@ -20,7 +22,9 @@ const HomeStack = createStackNavigator({
     }
   },
   Show: ShowScreen,
-  Review: ReviewScreen
+  Review: ReviewScreen,
+  ChangePassword : ChangePasswordScreen
+
 });
 
 export default HomeStack;

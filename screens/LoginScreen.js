@@ -47,6 +47,7 @@ class Inputs extends Component {
           style={styles.input}
           underlineColorAndroid="transparent"
           placeholder="Password"
+          secureTextEntry = {true}
           placeholderTextColor="#9a73ef"
           autoCapitalize="none"
           onChangeText={this.handlePassword}

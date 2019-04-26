@@ -45,13 +45,17 @@ class ApiController extends React.Component {
         }
     }
     async searchOmdb(searchPhrase,type) { 
-        switch (expresion) {
+        let url = `${SEARCH_SHOWS_ENDPOINT_OMDB.replace("[searchPhrase]", searchPhrase)}`;
+        let finalUrl = "";
+        switch (type) {
             case OMDB_TYPE_MOVIE:
-                const finalUrl = `${SEARCH_SHOWS_ENDPOINT_OMDB.replace("[searchPhrase]", searchPhrase)}${OMDB_TYPE_KEY}${OMDB_TYPE_MOVIE}`;
+                 finalUrl = `${url}${OMDB_TYPE_KEY}${OMDB_TYPE_MOVIE}`;
+                break;
             case OMDB_TYPE_SERIES:
-                const finalUrl = `${SEARCH_SHOWS_ENDPOINT_OMDB.replace("[searchPhrase]", searchPhrase)}${OMDB_TYPE_KEY}${OMDB_TYPE_SERIES}`;
+                finalUrl = `${url}${OMDB_TYPE_KEY}${OMDB_TYPE_SERIES}`;
+                break;
             default:
-                const finalUrl = SEARCH_SHOWS_ENDPOINT_OMDB.replace("[searchPhrase]", searchPhrase);
+                break;
           }                 
         try {
             let response = await fetch (finalUrl);
@@ -92,7 +96,7 @@ class ApiController extends React.Component {
             console.log(err)
         }
     }
-    async getCommentsByUser(user) {
+    async getCommentsBySeries(user) {
         let finalUrl = `${GET_COMMENTS_BY_SERIE}${user}` 
         try {
             let response = await fetch (finalUrl);
@@ -131,7 +135,8 @@ class ApiController extends React.Component {
             console.log(err)
         }
     }
-    async updateUserPassword (user) {
+    async updateUserPassword (userId, oldPassword, newPassword) {
+        var user = {userid: userId, oldpassword: oldPassword, newpassword: newPassword}
         let finalUrl = `${UPDATE_USER_ENDPOINT}` 
         const config = {
             method: 'PUT',
@@ -141,8 +146,7 @@ class ApiController extends React.Component {
         }
         try {
             let response = await fetch (finalUrl,config);
-            const data = await response.json();
-            return data
+            return response
         } catch (err) {
             console.log(err)
         }
@@ -164,18 +168,17 @@ class ApiController extends React.Component {
             console.log(err)
         }
     }
-    async getUser (user) {
+    async getUser (email) {
         let finalUrl = `${GET_USER_ENDPOINT}` 
         const config = {
             method: 'POST',
             mode: "cors",
             headers:{ 'Content-Type': 'application/json'},
-            body: JSON.stringify(user) // data can be `string` or {object}!
+            body: JSON.stringify(email) // data can be `string` or {object}!
         }
         try {
             let response = await fetch (finalUrl,config);
-            const data = await response.json();
-            return data
+            return response
         } catch (err) {
             console.log(err)
         }
@@ -190,24 +193,33 @@ class ApiController extends React.Component {
         }
         try {
             let response = await fetch (finalUrl,config);
-            const data = await response.json();
-            return data
+            return response
         } catch (err) {
             console.log(err)
         }
     }
-    async commentSeries (seriesId, comment) {
-        const finalUrl = COMMENT_SERIES_ENDPOINT.replace("[seriesID]", seriesId);
+    async commentShow(showID, comment, score, user, type) {
+        var review = {userid: user, score: score, comment: comment }
+        let finalUrl = ""
+        switch (type) {
+            case OMDB_TYPE_MOVIE:
+                finalUrl = COMMENT_MOVIE_ENDPOINT.replace("[movieID]", showID);
+                break;
+            case OMDB_TYPE_SERIES:
+                finalUrl = COMMENT_SERIES_ENDPOINT.replace("[seriesID]", showID);
+                break;
+            default:
+                break;
+        }
         const config = {
             method: 'POST',
             mode: "cors",
             headers:{ 'Content-Type': 'application/json'},
-            body: JSON.stringify(comment) // data can be `string` or {object}!
+            body: JSON.stringify(review) // data can be `string` or {object}!
         }
         try {
             let response = await fetch (finalUrl,config);
-            const data = await response.json();
-            return data
+            return response
         } catch (err) {
             console.log(err)
         }
@@ -222,8 +234,7 @@ class ApiController extends React.Component {
         }
         try {
             let response = await fetch (finalUrl,config);
-            const data = await response.json();
-            return data
+            return response
         } catch (err) {
             console.log(err)
         }

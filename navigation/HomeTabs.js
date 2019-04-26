@@ -3,14 +3,16 @@ import { createMaterialTopTabNavigator,createAppContainer } from "react-navigati
 import MoviesScreen from "../screens/MoviesScreen";
 import SeriesScreen from "../screens/SeriesScreen";
 import MyReviewsScreen from "../screens/MyReviewsScreen";
+import UserScreen from "../screens/UserScreen";
 
 export const HomeTabs = createMaterialTopTabNavigator(
   {
     Películas: { screen: MoviesScreen },
     Series: { screen: SeriesScreen },
-    "Mis Reseñas": { screen: MyReviewsScreen }
+    "Mis Reseñas": { screen: MyReviewsScreen },
+    Usuario: { screen: UserScreen }
   },
-  {
+  { 
     tabBarPosition: 'top',
     swipeEnabled: true,
     animationEnabled: true,
