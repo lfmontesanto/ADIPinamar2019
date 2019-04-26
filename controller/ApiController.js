@@ -72,6 +72,16 @@ class ApiController extends React.Component {
             console.log(err)
         }
     }
+    async getShowOmdb(imdbID) {                    
+      const finalUrl = GET_SHOWS_ENDPOINT_OMDB.replace("[imdbID]", imdbID);
+      try {
+          let response = await fetch (finalUrl);
+          const data = await response.json();
+          return data.Search
+      } catch (err){
+          console.log(err)
+      }
+  }
     async getCommentsByMovie(movieId) {
         const finalUrl = GET_COMMENTS_BY_MOVIE.replace("[movieID]", movieId);
         try {
@@ -121,7 +131,6 @@ class ApiController extends React.Component {
             console.log(err)
         }
     }
-
     async updateUserPassword (user) {
         let finalUrl = `${UPDATE_USER_ENDPOINT}` 
         const config = {

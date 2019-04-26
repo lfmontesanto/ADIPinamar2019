@@ -7,28 +7,55 @@ import {
   Image,
   Button
 } from "react-native";
+import ApiController from "../controller/ApiController";
 
 import ReviewList from "../components/ReviewList";
 
 export default class ShowScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      show: {}
+    };
+  }
+  componentWillMount() {
+    const api = ApiController;
+    const showID = this.props.navigation.getParam("show").imdbID;
+    api.getShowOmdb(showID).then(response => {
+      console.log(response)
+      this.state.show = response;
+    });
+    const { navigation } = this.props;
+    const localShow = navigation.getParam("show");
+    console.log("LOCALSHOW")
+    console.log(localShow)
+    if (localShow != null) {
+      console.log('entro')
+      this.state.show = localShow;
+    }
+    console.log("STATESHOW")
+    console.log(this.state.show)
+  }
   render() {
     const { navigation } = this.props;
-    const show = navigation.getParam("show");
     const reviews = navigation.getParam("Reviews");
+    const show = this.state.show;
     return (
       <ScrollView style={styles.mainContainer}>
-        <Image source={{ uri: show.coverSource }} style={styles.cover} />
+      {console.log("show en Return" + show)}
+        <Image source={{ uri: show.Poster }} style={styles.cover} />
         <View style={styles.descContainer}>
-          <Text style={styles.title}>{show.title}</Text>
-          <Text style={styles.textNormal}>Valoración: {show.score}</Text>
-          <Text style={styles.textNormal}>Duración: {show.duration} min.</Text>
-          <Text style={styles.textNormal}>Año: {show.year}</Text>
-          <Text style={styles.textNormal}>Director: {show.director}</Text>
+          <Text style={styles.title}>{show.Title}</Text>
+          <Text style={styles.textNormal}>Valoración: {show.Score}</Text>
+          <Text style={styles.textNormal}>Duración: {show.Runtime}</Text>
+          <Text style={styles.textNormal}>Año: {show.Year}</Text>
+          <Text style={styles.textNormal}>Actores: {show.Actors}</Text>
+          <Text style={styles.textNormal}>Director: {show.Director}</Text>
           <Text style={styles.textNormal}>
-            Géneros: {show.genre.join(", ")}
+            Géneros: {show.Genre}
           </Text>
           <Text style={styles.summary}>Sinopsis</Text>
-          <Text style={styles.description}>{show.description}</Text>
+          <Text style={styles.description}>{show.Plot}</Text>
         </View>
         <View style={styles.reviewsHeader}>
           <Text style={styles.reviews}>Reseñas</Text>
