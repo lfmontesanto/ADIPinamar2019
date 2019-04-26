@@ -111,7 +111,6 @@ class ApiController extends React.Component {
         try {
             let response = await fetch (finalUrl,config);
             const data = await response.json();
-            console.log("Usuario Actualizado")
             return data
         } catch (err) {
             console.log(err)
