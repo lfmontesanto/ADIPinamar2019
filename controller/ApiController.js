@@ -32,7 +32,6 @@ class ApiController extends React.Component {
     }
     async searchMoviesHeroku(searchPhrase) {                    
         let finalUrl = `${SEARCH_MOVIES_ENDPOINT_HEROKU}${searchPhrase}` 
-        console.log(finalUrl);
         try {
             let response = await fetch (finalUrl);
             const data = await response.json();
@@ -43,7 +42,6 @@ class ApiController extends React.Component {
     }
     async searchOmdb(searchPhrase) {                    
         const finalUrl = SEARCH_SHOWS_ENDPOINT_OMDB.replace("[searchPhrase]", searchPhrase);
-        console.log(finalUrl);
         try {
             let response = await fetch (finalUrl);
             const data = await response.json();
@@ -57,7 +55,6 @@ class ApiController extends React.Component {
         try {
             let response = await fetch (finalUrl);
             const data = await response.json();
-            console.log(response)
             return data
         } catch (err){
             console.log(err)
@@ -131,7 +128,6 @@ class ApiController extends React.Component {
         try {
             let response = await fetch (finalUrl,config);
             const data = await response.json();
-            console.log("Usuario Actualizado")
             return data
         } catch (err) {
             console.log(err)
@@ -148,7 +144,6 @@ class ApiController extends React.Component {
         try {
             let response = await fetch (finalUrl,config);
             const data = await response.json();
-            console.log("Usuario Actualizado")
             return data
         } catch (err) {
             console.log(err)
@@ -218,7 +213,6 @@ class ApiController extends React.Component {
             console.log(err)
         }
     }
-
 }
 
 export default new ApiController();
