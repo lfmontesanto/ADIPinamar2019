@@ -53,6 +53,7 @@ class ApiController extends React.Component {
     }
     async getShowOmdb(imdbID) {                    
       const finalUrl = GET_SHOWS_ENDPOINT_OMDB.replace("[imdbID]", imdbID);
+      console.log(finalUrl)
       try {
           let response = await fetch (finalUrl);
           const data = await response.json();
@@ -63,6 +64,7 @@ class ApiController extends React.Component {
   }
     async getCommentsByMovie(movieId) {
         const finalUrl = GET_COMMENTS_BY_MOVIE.replace("[movieID]", movieId);
+        console.log(finalUrl)
         try {
             let response = await fetch (finalUrl);
             const data = await response.json();

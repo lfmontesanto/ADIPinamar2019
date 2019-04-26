@@ -15,26 +15,35 @@ export default class ShowScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: {}
+      show: {},
+      reviews: {}
     };
   }
   componentWillMount() {
     const api = ApiController;
-    const showID = this.props.navigation.getParam("show").imdbID;
-    api.getShowOmdb(showID).then(response => {
-      console.log(response)
-      this.state.show = response;
-    });
-    const { navigation } = this.props;
-    const localShow = navigation.getParam("show");
-    console.log("LOCALSHOW")
-    console.log(localShow)
-    if (localShow != null) {
-      console.log('entro')
-      this.state.show = localShow;
+    const show = this.props.navigation.getParam("show");
+    if (show._id == undefined) {
+      api.getShowOmdb(show.imdbID).then(response => {
+        console.log(response)
+        this.state.show = response;
+      });
+    } else {
+      this.state.show = show;
     }
+    console.log("LOCALSHOW")
     console.log("STATESHOW")
     console.log(this.state.show)
+    console.log('Show ID')
+    console.log(this.state.show._id)
+    api.getCommentsByMovie(this.state.show._id).then(response => {
+      console.log(this.state.show._id)
+      console.log('RESPONSE')
+      console.log(response)
+      this.state.reviews = response;
+      console.log('STATE REVIEWS')
+      console.log(this.state.reviews)
+
+    });
   }
   render() {
     const { navigation } = this.props;
@@ -42,7 +51,6 @@ export default class ShowScreen extends React.Component {
     const show = this.state.show;
     return (
       <ScrollView style={styles.mainContainer}>
-      {console.log("show en Return" + show)}
         <Image source={{ uri: show.Poster }} style={styles.cover} />
         <View style={styles.descContainer}>
           <Text style={styles.title}>{show.Title}</Text>
@@ -66,7 +74,11 @@ export default class ShowScreen extends React.Component {
             }}
           />
         </View>
-        <ReviewList reviews={reviews} />
+        {console.log("REVIEWS BEFORE SENDING")}
+        {console.log(this.state.reviews)}
+        {this.state.reviews != undefined &&
+          <ReviewList reviews={this.state.reviews}/>
+        }
       </ScrollView>
     );
   }
