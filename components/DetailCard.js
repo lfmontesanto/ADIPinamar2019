@@ -1,30 +1,49 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native'
+import React from "react";
+import { View, TouchableOpacity, Text, Image, StyleSheet } from "react-native";
+
+import Reviews from "../constants/Reviews";
 
 export default class DetailCard extends React.Component {
   render() {
     const show = this.props.show;
+    const navigation = this.props.navigation;
     return (
+<<<<<<< HEAD
       <View style={ styles.mainContainer }>
         <Image source={{ uri: 'https://images-na.ssl-images-amazon.com/images/I/51L009b1j0L._SY445_.jpg' }} style={ styles.cover }></Image>
         <View style={ styles.descContainer }>
           <Text style={ styles.title }>{ show.title }</Text>
           <Text style={ styles.mainText }>Valoración: { show.score }</Text>
           <Text style={ styles.mainText }>{ show.genre.join(', ') }</Text>
+=======
+      <TouchableOpacity
+        style={styles.mainContainer}
+        onPress={() => {
+          navigation.navigate("Show", { show, Reviews });
+        }}
+      >
+        <Image source={{ uri: show.coverSource }} style={styles.cover} />
+        <View style={styles.descContainer}>
+          <Text style={styles.title}>{show.title}</Text>
+          <Text style={styles.mainText}>Valoración: {show.score}</Text>
+          <Text style={styles.mainText}>{show.genre.join(", ")}</Text>
+>>>>>>> 1090b93777fa7ec122e8ba3c35b41085f0c877ae
           <Text
-            style={ styles.description }
-            ellipsisMode='tail'
+            style={styles.description}
+            ellipsisMode="tail"
             numberOfLines={6}
-          >{ show.description }</Text>
+          >
+            {show.description}
+          </Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 15
   },
   cover: {
@@ -34,22 +53,24 @@ const styles = StyleSheet.create({
   },
   descContainer: {
     flex: 1,
-    flexDirection: 'column'
+    flexDirection: "column"
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
-    flexWrap: 'wrap'
+    fontWeight: "bold",
+    flexWrap: "wrap",
+    marginBottom: 5
   },
   mainText: {
     fontSize: 16,
     flex: 1,
-    flexWrap: 'wrap'
+    flexWrap: "wrap"
   },
   description: {
     fontSize: 14,
     flex: 1,
-    flexWrap: 'wrap',
-    marginTop: 10
+    flexWrap: "wrap",
+    marginTop: 10,
+    textAlign: "justify"
   }
 });

@@ -1,15 +1,14 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import ShowsList from '../components/ShowsList';
 import SearchHeader from './SearchHeader'
 import ApiController from '../controller/ApiController';
 
-
 export default class HomeScreen extends React.Component {
   
   static navigationOptions = {
-    header: null,
+    header: null
   };
   constructor(props) {
     super(props);
@@ -44,25 +43,28 @@ export default class HomeScreen extends React.Component {
     })
   }
   render() {
+    const navigation = this.props.navigation;
     return (
-      <View style={ styles.container }>
+    <View style={ styles.container }>
       <SearchHeader
         style = { styles.searchContainer }
-        action = { this.onSearch }
+        action = { this.onSearch } />
       />
-      <ShowsList shows = { this.state.movieList }/>
-      </View>
+      <ShowsList shows = { this.state.movieList }
+        navigation={navigation}
+      />
+    </View>
     );
   }
 }
 const styles = StyleSheet.create({
   container: {
-    flexDirection:'column',
+    flexDirection: "column",
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff"
   },
   searchContainer: {
-    alignItems: 'center',
-    marginBottom: 10,
+    alignItems: "center",
+    marginBottom: 10
   }
 });
