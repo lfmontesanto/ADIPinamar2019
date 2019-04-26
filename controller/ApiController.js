@@ -12,7 +12,12 @@ const COMMENT_MOVIE_ENDPOINT = "https://pelispedio.herokuapp.com/api/movies/[mov
 const GET_COMMENTS_BY_SERIE= "https://pelispedio.herokuapp.com/api/series/[seriesID]/comments"
 const COMMENT_SERIES_ENDPOINT = "https://pelispedio.herokuapp.com/api/series/[seriesID]/comment"
 const SEARCH_SERIES_HEROKU = "https://pelispedio.herokuapp.com//api/series/"
-const urlUsers = ""
+const UPDATE_USER_ENDPOINT = "https://pelispedio.herokuapp.com/api/profile"
+const LOG_IN_ENDPOINT = "https://pelispedio.herokuapp.com/api/login"
+const GET_USER_ENDPOINT = "https://pelispedio.herokuapp.com/api/profile"
+const REGISTER_USER_ENDPOINT = "https://pelispedio.herokuapp.com/api/register"
+const GET_USER_ACTIVITY_ENDPOINT = "http://localhost:8080/api/profile/activity"
+
 
 class ApiController extends React.Component {
     async getMoviesHeroku()
@@ -59,7 +64,7 @@ class ApiController extends React.Component {
         }
     }
     async getCommentsByUser(user) {
-        let finalUrl = `${urlCommentsByUser}${user}` //TODO UPDATE ENDPOINT
+        let finalUrl = `${GET_COMMENTS_BY_SERIE}${user}` 
         try {
             let response = await fetch (finalUrl);
             const data = await response.json();
@@ -88,7 +93,7 @@ class ApiController extends React.Component {
         }
     }
     async getUser(user) {
-        let finalUrl = `${urlUsers}${user}` //TODO UPDATE ENDPOINT
+        let finalUrl = `${urlUsers}${user}` 
         try {
             let response = await fetch (finalUrl);
             const data = await response.json();
@@ -97,16 +102,51 @@ class ApiController extends React.Component {
             console.log(err)
         }
     }
-    async updateUser (user) {
-        let finalUrl = `${urlCommentsByMovie}` //TODO CHANGE ENDPOINT
+
+    async updateUserPassword (user) {
+        let finalUrl = `${UPDATE_USER_ENDPOINT}` 
         const config = {
-            method: 'POST', // or 'PUT'
+            method: 'PUT',
             mode: "cors",
             headers:{ 'Content-Type': 'application/json'},
             body: JSON.stringify(user) // data can be `string` or {object}!
         }
         try {
-            let response = await fetch (urlCommentsByMovie,config);
+            let response = await fetch (finalUrl,config);
+            const data = await response.json();
+            console.log("Usuario Actualizado")
+            return data
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    async login (user) {
+        let finalUrl = `${LOG_IN_ENDPOINT}` 
+        const config = {
+            method: 'POST',
+            mode: "cors",
+            headers:{ 'Content-Type': 'application/json'},
+            body: JSON.stringify(user) // data can be `string` or {object}!
+        }
+        try {
+            let response = await fetch (finalUrl,config);
+            const data = await response.json();
+            console.log("Usuario Actualizado")
+            return data
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    async login (user) {
+        let finalUrl = `${GET_USER_ENDPOINT}` 
+        const config = {
+            method: 'POST',
+            mode: "cors",
+            headers:{ 'Content-Type': 'application/json'},
+            body: JSON.stringify(user) // data can be `string` or {object}!
+        }
+        try {
+            let response = await fetch (finalUrl,config);
             const data = await response.json();
             console.log("Usuario Actualizado")
             return data
@@ -117,7 +157,7 @@ class ApiController extends React.Component {
     async commentMovie (movieId, comment) {
         const finalUrl = COMMENT_MOVIE_ENDPOINT.replace("[movieID]", movieId);
         const config = {
-            method: 'POST', // or 'PUT'
+            method: 'POST', 
             mode: "cors",
             headers:{ 'Content-Type': 'application/json'},
             body: JSON.stringify(comment) // data can be `string` or {object}!
@@ -125,16 +165,15 @@ class ApiController extends React.Component {
         try {
             let response = await fetch (finalUrl,config);
             const data = await response.json();
-            console.log("Comentario guardado")
             return data
         } catch (err) {
             console.log(err)
         }
     }
     async commentSeries (seriesId, comment) {
-        const finalUrl = COMMENT_MOVIE_ENDPOINT.replace("[seriesID]", seriesId);
+        const finalUrl = COMMENT_SERIES_ENDPOINT.replace("[seriesID]", seriesId);
         const config = {
-            method: 'POST', // or 'PUT'
+            method: 'POST',
             mode: "cors",
             headers:{ 'Content-Type': 'application/json'},
             body: JSON.stringify(comment) // data can be `string` or {object}!
@@ -142,12 +181,44 @@ class ApiController extends React.Component {
         try {
             let response = await fetch (finalUrl,config);
             const data = await response.json();
-            console.log("Comentario guardado")
             return data
         } catch (err) {
             console.log(err)
         }
     }
+    async getUserActivity (userID) {
+        const finalUrl = GET_USER_ACTIVITY_ENDPOINT;
+        const config = {
+            method: 'POST', 
+            mode: "cors",
+            headers:{ 'Content-Type': 'application/json'},
+            body: JSON.stringify(userID) // data can be `string` or {object}!
+        }
+        try {
+            let response = await fetch (finalUrl,config);
+            const data = await response.json();
+            return data
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    async registerUser (user) {
+        const finalUrl = REGISTER_USER_ENDPOINT
+        const config = {
+            method: 'POST',
+            mode: "cors",
+            headers:{ 'Content-Type': 'application/json'},
+            body: JSON.stringify(userID) // data can be `string` or {object}!
+        }
+        try {
+            let response = await fetch (finalUrl,config);
+            const data = await response.json();
+            return data
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
 }
 
 export default new ApiController();
