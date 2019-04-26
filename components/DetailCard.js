@@ -8,25 +8,31 @@ export default class DetailCard extends React.Component {
     const show = this.props.show;
     const navigation = this.props.navigation;
     return (
-
       <TouchableOpacity
         style={styles.mainContainer}
         onPress={() => {
           navigation.navigate("Show", { show, Reviews });
         }}
       >
-        <Image source={{ uri: show.coverSource }} style={styles.cover} />
+        <Image source={{ uri: show.Poster }} style={styles.cover} />
         <View style={styles.descContainer}>
-          <Text style={styles.title}>{show.title}</Text>
-          <Text style={styles.mainText}>Valoración: {show.score}</Text>
-          <Text style={styles.mainText}>{show.genre.join(", ")}</Text>
-          <Text
-            style={styles.description}
-            ellipsisMode="tail"
-            numberOfLines={6}
-          >
-            {show.description}
-          </Text>
+          <Text style={styles.title}>{show.Title}</Text>
+          {show.Score != undefined &&
+            <Text style={styles.mainText}>Valoración: {show.Score}</Text>
+          }
+          <Text style={styles.mainText}>Año: {show.Year}</Text>
+          {show.Genre &&
+             <Text style={styles.mainText}>{show.Genre}</Text>
+          }
+          {show.Plot &&
+            <Text
+              style={styles.description}
+              ellipsisMode="tail"
+              numberOfLines={3}
+              >
+                {show.Plot}
+            </Text>
+          }
         </View>
       </TouchableOpacity>
     );
