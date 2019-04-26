@@ -6,7 +6,7 @@ import ShowsList from "../components/ShowsList";
 
 import Series from "../constants/Movies";
 
-export default class SecondScreen extends React.Component {
+export default class SeriesScreen extends React.Component {
   static navigationOptions = {
     header: null
   };
