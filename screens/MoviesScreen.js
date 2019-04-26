@@ -5,8 +5,7 @@ import ShowsList from '../components/ShowsList';
 import SearchHeader from './SearchHeader'
 import ApiController from '../controller/ApiController';
 
-export default class HomeScreen extends React.Component {
-  
+export default class MoviesScreen extends React.Component {
   static navigationOptions = {
     header: null
   };

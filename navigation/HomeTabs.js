@@ -1,12 +1,14 @@
-import { createMaterialTopTabNavigator, createAppContainer } from 'react-navigation';
- 
-import HomeScreen from '../screens/HomeScreen';
-import SecondScreen from '../screens/SecondScreen'
+import { createMaterialTopTabNavigator,createAppContainer } from "react-navigation";
+
+import MoviesScreen from "../screens/MoviesScreen";
+import SeriesScreen from "../screens/SeriesScreen";
+import MyReviewsScreen from "../screens/MyReviewsScreen";
 
 export const HomeTabs = createMaterialTopTabNavigator(
   {
-    Movies: { screen: HomeScreen},
-    Series: { screen: SecondScreen},
+    Películas: { screen: MoviesScreen },
+    Series: { screen: SeriesScreen },
+    "Mis Reseñas": { screen: MyReviewsScreen }
   },
   {
     tabBarPosition: 'top',

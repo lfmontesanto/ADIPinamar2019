@@ -1,12 +1,19 @@
 import React from "react";
-import { View, ScrollView, Button, Text, TextInput, StyleSheet } from "react-native";
+import {
+  View,
+  ScrollView,
+  Button,
+  Text,
+  TextInput,
+  StyleSheet
+} from "react-native";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
 
 export default class ReviewScreen extends React.Component {
   state = {
     score: "",
     comment: ""
-  }
+  };
   handleScore(text) {
     this.setState({ score: text });
   }
@@ -19,7 +26,10 @@ export default class ReviewScreen extends React.Component {
   render() {
     const navigation = this.props.navigation;
     return (
-      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+      <ScrollView
+        contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps="handled"
+      >
         <Text style={styles.title}>{"Deja tu reseña"}</Text>
         <TextInput
           style={styles.input}
@@ -45,14 +55,14 @@ export default class ReviewScreen extends React.Component {
             onPress={() => {
               navigation.goBack();
             }}
-            />
+          />
           <Button
             style={styles.buttons}
             title={"Enviar"}
             onPress={() => {
               saveReview();
             }}
-            />
+          />
         </View>
       </ScrollView>
     );
@@ -68,8 +78,8 @@ const styles = StyleSheet.create({
     marginVertical: 25
   },
   container: {
-    flexDirection: 'column',
-    alignItems: 'center'
+    flexDirection: "column",
+    alignItems: "center"
   },
   input: {
     margin: 15,
@@ -84,8 +94,8 @@ const styles = StyleSheet.create({
     width: 150,
     marginTop: 30,
     height: 100,
-    justifyContent: 'space-between',
-    borderColor: 'black'
+    justifyContent: "space-between",
+    borderColor: "black"
   },
   buttons: {
     margin: 10
