@@ -4,7 +4,6 @@ import { StyleSheet, View, Text } from 'react-native';
 import ShowsList from '../components/ShowsList';
 import SearchHeader from './SearchHeader'
 import ApiController from '../controller/ApiController';
-import { Snackbar } from 'react-native-paper';
 
 
 export default class HomeScreen extends React.Component {
