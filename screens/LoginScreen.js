@@ -6,6 +6,7 @@ import {
   TextInput,
   StyleSheet
 } from "react-native";
+import ApiController from "../controller/ApiController";
 
 class Inputs extends Component {
   state = {
@@ -18,12 +19,16 @@ class Inputs extends Component {
   handlePassword = text => {
     this.setState({ password: text });
   };
-  login = email => {
-    //alert('Login successfull '+'email: ' + email );
-  };
-
-  loginError = email => {
-    alert("User/Pass do not match, " + "email: " + email);
+  login = (email,password) => {
+    const { navigate } = this.props.navigation;
+    const api = ApiController;
+    api.login(email,password).then((response) =>{
+      if (response.ok == true) {
+        navigate("HomeTabs");
+      } else {
+        alert("User/Pass do not match, " + "email: " + email);
+      }
+    })
   };
 
   render() {
@@ -49,15 +54,7 @@ class Inputs extends Component {
         <TouchableOpacity
           style={styles.submitButton}
           onPress={() => {
-            // Validate if user exist
-            //if (responde.data.code==200)
-            if (true) {
-              //success
-              this.login(this.state.email);
-              navigate("HomeTabs");
-            } else {
-              this.loginError(this.state.email);
-            }
+              this.login(this.state.email, this.state.password);
           }}
         >
           <Text style={styles.submitButtonText}> Submit </Text>

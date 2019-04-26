@@ -7,6 +7,8 @@ import {
   StyleSheet
 } from "react-native";
 
+import ApiController from "../controller/ApiController";
+
 export default class RegisterScreen extends Component {
   state = {
     firstname: "",
@@ -14,6 +16,7 @@ export default class RegisterScreen extends Component {
     email: "",
     password: ""
   };
+  
   handleFirstName = text => {
     this.setState({ firstname: text });
   };
@@ -26,12 +29,23 @@ export default class RegisterScreen extends Component {
   handlePassword = text => {
     this.setState({ password: text });
   };
-  login = email => {
-    alert("Register successful " + "email: " + email);
+  register = (email, password, name, lastname) => {
+    const api = ApiController;
+    api.registerUser(email, password, name, lastname).then((response) =>{
+      if (response.ok == true) {
+        alert("User registered " );
+        navigate("Login")
+      } else {
+        alert("Error creating user ");
+      }
+    })
   };
-  loginError = email => {
-    alert("The registration could not be made, " + "email: " + email);
-  };
+  
+  validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+ 
   render() {
     const { navigate } = this.props.navigation;
     return (
@@ -71,15 +85,15 @@ export default class RegisterScreen extends Component {
         <TouchableOpacity
           style={styles.submitButton}
           onPress={() => {
-            // Validate if user exist
-            //if (responde.data.code==200)
-            if (this.state.email == "carina") {
-              //success
-              this.login(this.state.email);
-              navigate("Home");
+            if ((!(!this.state.email || /^\s*$/.test(this.state.email))) && !((!this.state.email || /^\s*$/.test(this.state.email)))) {
+              if (this.validateEmail(this.state.email)){
+                this.register(this.state.email,this.state.password,this.state.name,this.state.lastname)
+              } else {
+                alert("Invalid email format");
+              }
             } else {
-              this.loginError(this.state.email);
-            }
+              alert("Invalid email/password format");
+            }  
           }}
         >
           <Text style={styles.submitButtonText}> Submit </Text>

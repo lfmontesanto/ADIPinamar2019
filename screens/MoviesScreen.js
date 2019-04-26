@@ -12,7 +12,7 @@ export default class MoviesScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      movieList: [],
+      moviesList: [],
       listIsEmptyMessage : '',
       visible : false
     };
@@ -23,7 +23,7 @@ export default class MoviesScreen extends React.Component {
     if (!(!searchInput || /^\s*$/.test(searchInput))) { 
       api.searchOmdb(searchInput).then((response) =>{ 
         if (response.length>0) {
-          this.setState ({seriesList : response})
+          this.setState ({moviesList : response})
         } else {
           alert("No results found" );
           this.setState(state => ({ visible: !state.visible }))
