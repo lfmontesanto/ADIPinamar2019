@@ -7,8 +7,10 @@ const GET_MOVIES_ENDPOINT_HEROKU = "https://pelispedio.herokuapp.com/api/movies/
 const SEARCH_MOVIES_ENDPOINT_HEROKU = "https://pelispedio.herokuapp.com/api/getMovies"
 const SEARCH_SHOWS_ENDPOINT_OMDB = `${OMDB_ENDPOINT}${OMDB_API_KEY}${OMDB_SEARCH_KEY}${"[searchPhrase]"}`
 const GET_SERIES_HEROKU = "https://pelispedio.herokuapp.com/api/getSeries"
-const GET_COMMENTS_BY_MOVIE= "https://pelispedio.herokuapp.com/api/movies/[movieID/comments"
-const COMMENTS_ENDPOINT = "http://gustavomovies2.herokuapp.com/comments/create"
+const GET_COMMENTS_BY_MOVIE= "https://pelispedio.herokuapp.com/api/movies/[movieID]/comments"
+const COMMENT_MOVIE_ENDPOINT = "https://pelispedio.herokuapp.com/api/movies/[movieID]/comment"
+const GET_COMMENTS_BY_SERIE= "https://pelispedio.herokuapp.com/api/series/[seriesID]/comments"
+const COMMENT_SERIES_ENDPOINT = "https://pelispedio.herokuapp.com/api/series/[seriesID]/comment"
 const SEARCH_SERIES_HEROKU = "https://pelispedio.herokuapp.com//api/series/"
 const urlUsers = ""
 
@@ -46,7 +48,7 @@ class ApiController extends React.Component {
         }
     }
     async getCommentsByMovie(movieId) {
-        const finalUrl = GET_COMMENTS_BY_MOVIE.replace("[movieID]", "movieId");
+        const finalUrl = GET_COMMENTS_BY_MOVIE.replace("[movieID]", movieId);
         try {
             let response = await fetch (finalUrl);
             const data = await response.json();
@@ -112,8 +114,8 @@ class ApiController extends React.Component {
             console.log(err)
         }
     }
-    async commentMovie (comment) {
-        let finalUrl = `${urlCommentsByMovie}` //TODO UPDATE ENDPOINT 
+    async commentMovie (movieId, comment) {
+        const finalUrl = COMMENT_MOVIE_ENDPOINT.replace("[movieID]", movieId);
         const config = {
             method: 'POST', // or 'PUT'
             mode: "cors",
@@ -121,7 +123,24 @@ class ApiController extends React.Component {
             body: JSON.stringify(comment) // data can be `string` or {object}!
         }
         try {
-            let response = await fetch (urlCommentsByMovie,config);
+            let response = await fetch (finalUrl,config);
+            const data = await response.json();
+            console.log("Comentario guardado")
+            return data
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    async commentSeries (seriesId, comment) {
+        const finalUrl = COMMENT_MOVIE_ENDPOINT.replace("[seriesID]", seriesId);
+        const config = {
+            method: 'POST', // or 'PUT'
+            mode: "cors",
+            headers:{ 'Content-Type': 'application/json'},
+            body: JSON.stringify(comment) // data can be `string` or {object}!
+        }
+        try {
+            let response = await fetch (finalUrl,config);
             const data = await response.json();
             console.log("Comentario guardado")
             return data

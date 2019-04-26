@@ -67,62 +67,7 @@ class Inputs extends Component {
           Not registered yet? Register Now
         </Text>
 
-<<<<<<< HEAD
-   render() {
-    const {navigate} = this.props.navigation;
-      return (
-        <View style = {styles.container}>
-          <TextInput style = {styles.input}
-              underlineColorAndroid = "transparent"
-              placeholder = "Email"
-              placeholderTextColor = "#9a73ef"
-              autoCapitalize = "none"
-              onChangeText = {this.handleEmail}/>
-          <TextInput style = {styles.input}
-              underlineColorAndroid = "transparent"
-              placeholder = "Password"
-              placeholderTextColor = "#9a73ef"
-              autoCapitalize = "none"
-              onChangeText = {this.handlePassword}/>
-          <TouchableOpacity
-              style = {styles.submitButton}
-              onPress = {
-                () => {
-                   // Validate if user exist
-                   //if (responde.data.code==200)
-                   if(true){
-                      //success
-                  this.login()
-                  navigate('HomeTabs')
-                }else{
-                   this.loginError(this.state.email)}
-                }
-              }>
-              <Text style = {styles.submitButtonText}> Submit </Text>
-          </TouchableOpacity>
 
-
-          <Text style={styles.getStartedText}>
-                           Not registered yet? Register Now
-            </Text>
-
-
-          <TouchableOpacity
-              style = {styles.registerButton}
-              onPress = {
-                () => {
-             
-                  navigate('Register')
-                }
-              }>
-              <Text style = {styles.registerButtonText}> Register </Text>
-          </TouchableOpacity>
-       
-        </View>
-      )
-   }
-   
-=======
         <TouchableOpacity
           style={styles.registerButton}
           onPress={() => {
@@ -134,7 +79,6 @@ class Inputs extends Component {
       </ScrollView>
     );
   }
->>>>>>> 1090b93777fa7ec122e8ba3c35b41085f0c877ae
 }
 export default Inputs;
 
