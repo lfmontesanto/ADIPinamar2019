@@ -6,7 +6,7 @@ import SearchHeader from "./SearchHeader";
 
 import Movies from "../constants/Movies";
 
-export default class HomeScreen extends React.Component {
+export default class MoviesScreen extends React.Component {
   static navigationOptions = {
     header: null
   };

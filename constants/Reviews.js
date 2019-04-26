@@ -1,7 +1,7 @@
 export const Reviews = [
   {
     user: "Laucha",
-    movie: "Avengers",
+    show: "Avengers",
     score: 8.9,
     date: "25/04/2015",
     comment:
@@ -9,7 +9,7 @@ export const Reviews = [
   },
   {
     user: "Cari",
-    movie: "Kuzco",
+    show: "Kuzco",
     score: 7.2,
     date: "25/04/2015",
     comment:
@@ -17,7 +17,7 @@ export const Reviews = [
   },
   {
     user: "Diego",
-    movie: "Lemony Snicket",
+    show: "Lemony Snicket",
     score: 4,
     date: "25/04/2015",
     comment:
@@ -25,7 +25,7 @@ export const Reviews = [
   },
   {
     user: "Facu",
-    movie: "Kung Fu Panda",
+    show: "Kung Fu Panda",
     score: 10,
     date: "25/04/2015",
     comment:
@@ -33,7 +33,7 @@ export const Reviews = [
   },
   {
     user: "Charly",
-    movie: "Game of Thrones",
+    show: "Game of Thrones",
     score: 9.5,
     date: "25/04/2015",
     comment:
