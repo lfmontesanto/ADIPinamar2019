@@ -3,9 +3,11 @@ import React from 'react';
 const OMDB_API_KEY = "d0b64143"
 const OMDB_SEARCH_KEY = "&s="
 const OMDB_ENDPOINT = "http://www.omdbapi.com/?apikey="
-const GET_MOVIES_ENDPOINT_HEROKU = "https://pelispedio.herokuapp.com/api/movies/"
-const SEARCH_MOVIES_ENDPOINT_HEROKU = "https://pelispedio.herokuapp.com/api/getMovies"
+const OMDB_GET_KEY = "&i="
+const GET_MOVIES_ENDPOINT_HEROKU = "https://pelispedio.herokuapp.com/api/getMovies/"
+const SEARCH_MOVIES_ENDPOINT_HEROKU = "https://pelispedio.herokuapp.com/api/movies/"
 const SEARCH_SHOWS_ENDPOINT_OMDB = `${OMDB_ENDPOINT}${OMDB_API_KEY}${OMDB_SEARCH_KEY}${"[searchPhrase]"}`
+const GET_SHOWS_ENDPOINT_OMDB = `${OMDB_ENDPOINT}${OMDB_API_KEY}${OMDB_GET_KEY}${"[imdbID]"}`
 const GET_SERIES_HEROKU = "https://pelispedio.herokuapp.com/api/getSeries"
 const GET_COMMENTS_BY_MOVIE= "https://pelispedio.herokuapp.com/api/movies/[movieID]/comments"
 const COMMENT_MOVIE_ENDPOINT = "https://pelispedio.herokuapp.com/api/movies/[movieID]/comment"
@@ -17,7 +19,6 @@ const LOG_IN_ENDPOINT = "https://pelispedio.herokuapp.com/api/login"
 const GET_USER_ENDPOINT = "https://pelispedio.herokuapp.com/api/profile"
 const REGISTER_USER_ENDPOINT = "https://pelispedio.herokuapp.com/api/register"
 const GET_USER_ACTIVITY_ENDPOINT = "http://localhost:8080/api/profile/activity"
-
 
 class ApiController extends React.Component {
     async getMoviesHeroku()
@@ -45,11 +46,21 @@ class ApiController extends React.Component {
         try {
             let response = await fetch (finalUrl);
             const data = await response.json();
-            return data
+            return data.Search
         } catch (err){
             console.log(err)
         }
     }
+    async getShowOmdb(imdbID) {                    
+      const finalUrl = GET_SHOWS_ENDPOINT_OMDB.replace("[imdbID]", imdbID);
+      try {
+          let response = await fetch (finalUrl);
+          const data = await response.json();
+          return data.Search
+      } catch (err){
+          console.log(err)
+      }
+  }
     async getCommentsByMovie(movieId) {
         const finalUrl = GET_COMMENTS_BY_MOVIE.replace("[movieID]", movieId);
         try {
@@ -99,7 +110,6 @@ class ApiController extends React.Component {
             console.log(err)
         }
     }
-
     async updateUserPassword (user) {
         let finalUrl = `${UPDATE_USER_ENDPOINT}` 
         const config = {
