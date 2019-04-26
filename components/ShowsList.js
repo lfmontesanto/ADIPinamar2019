@@ -4,6 +4,7 @@ import DetailCard from './DetailCard';
 
 export default class ShowsList extends React.Component {
   render() {
+    console.log(this.props.shows)
     return (
       <ScrollView>
         {

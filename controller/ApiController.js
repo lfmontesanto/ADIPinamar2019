@@ -1,27 +1,30 @@
 import React from 'react';
 
-const urlGetMovies = "https://jsonplaceholder.typicode.com/todos/"
-const urlGetMovieByName = "https://jsonplaceholder.typicode.com/todos/"
-const urlGetSeries = "https://jsonplaceholder.typicode.com/todos/"
-const urlCommentsByMovie = "http://gustavomovies2.herokuapp.com/comments/create"
-const urlCommentsByUser = "https://jsonplaceholder.typicode.com/todos/"
-const urlGetSeriesByName = "https://jsonplaceholder.typicode.com/todos/"
+const OMDB_API_KEY = "d0b64143"
+const OMDB_SEARCH_KEY = "&s="
+const OMDB_ENDPOINT = "http://www.omdbapi.com/?apikey="
+const GET_MOVIES_ENDPOINT_HEROKU = "https://pelispedio.herokuapp.com/api/movies/"
+const SEARCH_MOVIES_ENDPOINT_HEROKU = "https://pelispedio.herokuapp.com/api/getMovies"
+const SEARCH_SHOWS_ENDPOINT_OMDB = `${OMDB_ENDPOINT}${OMDB_API_KEY}${OMDB_SEARCH_KEY}${"[searchPhrase]"}`
+const GET_SERIES_HEROKU = "https://pelispedio.herokuapp.com/api/getSeries"
+const GET_COMMENTS_BY_MOVIE= "https://pelispedio.herokuapp.com/api/movies/[movieID/comments"
+const COMMENTS_ENDPOINT = "http://gustavomovies2.herokuapp.com/comments/create"
+const SEARCH_SERIES_HEROKU = "https://pelispedio.herokuapp.com//api/series/"
 const urlUsers = ""
 
 class ApiController extends React.Component {
-    async getEquipos(okBusquedaEquipos)
+    async getMoviesHeroku()
     {
         try {
-            const response = await fetch (urlGetMovies);  //TODO UPDATE NEDPOINT
+            const response = await fetch (GET_MOVIES_ENDPOINT_HEROKU); 
             const data = await response.json();
             return data
         } catch (err){
             console.log(err)
         }
     }
-
-    async getMovieByName(name) {                    
-        let finalUrl = `${urlGetMovieByName}${name}`    //TODO UPDATE ENDPOINT
+    async searchMoviesHeroku(searchPhrase) {                    
+        let finalUrl = `${SEARCH_MOVIES_ENDPOINT_HEROKU}${searchPhrase}` 
         console.log(finalUrl);
         try {
             let response = await fetch (finalUrl);
@@ -31,11 +34,23 @@ class ApiController extends React.Component {
             console.log(err)
         }
     }
-    async getCommentsByMovie(movie) {
-        let finalUrl = `${urlCommentsByMovie}${movie}` //TODO UPDATE ENDPOINT
+    async searchOmdb(searchPhrase) {                    
+        const finalUrl = SEARCH_SHOWS_ENDPOINT_OMDB.replace("[searchPhrase]", searchPhrase);
+        console.log(finalUrl);
         try {
             let response = await fetch (finalUrl);
             const data = await response.json();
+            return data
+        } catch (err){
+            console.log(err)
+        }
+    }
+    async getCommentsByMovie(movieId) {
+        const finalUrl = GET_COMMENTS_BY_MOVIE.replace("[movieID]", "movieId");
+        try {
+            let response = await fetch (finalUrl);
+            const data = await response.json();
+            console.log(response)
             return data
         } catch (err){
             console.log(err)
@@ -51,17 +66,17 @@ class ApiController extends React.Component {
             console.log(err)
         }
     }
-    async getSeries() {
+    async getSeriesHeroku() {
         try {
-            let response = await fetch (finalUrl); //TODO UPDATE ENDPOINT
+            let response = await fetch (GET_SERIES_HEROKU);
             const data = await response.json();
             return data
         } catch (err){
             console.log(err)
         }
     }
-    async getSeriesByName(name) {
-        let finalUrl = `${urlGetSeriesByName}${name}` //TODO CHANGE ENDPOINT
+    async searchSeriesHeroku(name) {
+        let finalUrl = `${SEARCH_SERIES_HEROKU}${name}` 
         try {
             let response = await fetch (finalUrl);
             const data = await response.json();

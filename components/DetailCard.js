@@ -6,7 +6,7 @@ export default class DetailCard extends React.Component {
     const show = this.props.show;
     return (
       <View style={ styles.mainContainer }>
-        <Image source={{ uri: show.coverSource }} style={ styles.cover }></Image>
+        <Image source={{ uri: 'https://images-na.ssl-images-amazon.com/images/I/51L009b1j0L._SY445_.jpg' }} style={ styles.cover }></Image>
         <View style={ styles.descContainer }>
           <Text style={ styles.title }>{ show.title }</Text>
           <Text style={ styles.mainText }>Valoración: { show.score }</Text>

@@ -1,43 +1,58 @@
 import React from 'react';
-import { StyleSheet, View , TouchableOpacity, Text} from 'react-native';
+import { StyleSheet, View , Text} from 'react-native';
 
 import SearchHeader from './SearchHeader'
 import ApiController from '../controller/ApiController';
-import Series from '../constants/Movies';
+import ShowsList from '../components/ShowsList';
 
 export default class SecondScreen extends React.Component {
  
   static navigationOptions = {
     header: null,
   };
-
-  render() {
+  constructor(props) {
+    super(props);
+    this.state = {
+      seriesList: [],
+      listIsEmptyMessage : ''
+    };
+    this.onSearch = this.onSearch.bind(this);
+  }
+  onSearch(searchInput) {
     const api = ApiController;
-    const comment = {title:"Titanic2", username:"facu2", comment:"meh", score:"1"};
-    var obj = []
+    if (!(!searchInput || /^\s*$/.test(searchInput))) { 
+      api.searchOmdb(searchInput).then((response) =>{ 
+        if (response.length>0) {
+          this.setState ({seriesList : response})
+        } else {
+          alert("No results found" );
+          this.setState(state => ({ visible: !state.visible }))
+        }
+    })
+    } else {
+      api.getSeriesHeroku().then((response) =>{
+        this.setState ({seriesList : response})
+      })
+    }
+  }
+  componentDidMount () {
+    const api = ApiController;
+    api.getSeriesHeroku().then((response) =>{
+      this.setState ({ seriesList : response})
+    })
+  }
+  render() {
     return (
       <View style={ styles.container }>
-          <SearchHeader style={ styles.searchContainer }/>
-
-          <TouchableOpacity
-              style = {styles.submitButton}
-              onPress = {() => { 
-                api.commentMovie(comment).then((response) =>{
-                  console.log(response)
-                })
-              } }
-          >
-            <Text style = {styles.submitButtonText}> Submit </Text>
-          </TouchableOpacity>
+        <SearchHeader 
+          style={ styles.searchContainer }
+          action={ this.onSearch }
+        />
+        <Text>{ this.state.isEmptyMessage }</Text> 
+        <ShowsList shows={ this.state.seriesList }/>
       </View>
     );
   }
-  
-  setDataArray (response) {
-      
-  }
-
-  
 }
 
 const styles = StyleSheet.create({
