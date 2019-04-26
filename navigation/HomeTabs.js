@@ -1,7 +1,4 @@
-import {
-  createMaterialTopTabNavigator,
-  createAppContainer
-} from "react-navigation";
+import { createMaterialTopTabNavigator,createAppContainer } from "react-navigation";
 
 import MoviesScreen from "../screens/MoviesScreen";
 import SeriesScreen from "../screens/SeriesScreen";
@@ -14,19 +11,20 @@ export const HomeTabs = createMaterialTopTabNavigator(
     "Mis Reseñas": { screen: MyReviewsScreen }
   },
   {
-    tabBarPosition: "top",
+    tabBarPosition: 'top',
     swipeEnabled: true,
     animationEnabled: true,
     tabBarOptions: {
-      activeTintColor: "#FFFFFF",
-      inactiveTintColor: "#F8F8F8",
-      style: { backgroundColor: "#633689" },
-      labelStyle: { textAlign: "center" },
+      activeTintColor: '#FFFFFF',
+      inactiveTintColor: '#F8F8F8',
+      style:{ backgroundColor: '#633689' },
+      labelStyle:{ textAlign: 'center' },
       indicatorStyle: {
-        borderBottomColor: "#87B56A",
-        borderBottomWidth: 2
-      }
-    }
-  }
+        borderBottomColor: '#87B56A',
+        borderBottomWidth: 2,
+      },
+    },
+  },
 );
 export default createAppContainer(HomeTabs);
+

@@ -67,6 +67,7 @@ class Inputs extends Component {
           Not registered yet? Register Now
         </Text>
 
+
         <TouchableOpacity
           style={styles.registerButton}
           onPress={() => {

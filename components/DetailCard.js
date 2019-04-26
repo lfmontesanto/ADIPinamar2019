@@ -8,6 +8,7 @@ export default class DetailCard extends React.Component {
     const show = this.props.show;
     const navigation = this.props.navigation;
     return (
+
       <TouchableOpacity
         style={styles.mainContainer}
         onPress={() => {
