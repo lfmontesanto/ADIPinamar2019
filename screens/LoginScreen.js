@@ -24,19 +24,24 @@ class Inputs extends Component {
     const api = ApiController;
     api.login(email,password).then((response) =>{
       if (response.ok == true) {
-        navigate("HomeTabs");
+        navigate("HomeTabs", {
+          userEmail: email
+        });
       } else {
         alert("User/Pass do not match, " + "email: " + email);
       }
     })
   };
-
+  componentWillMount(){
+  
+  };
   render() {
     const { navigate } = this.props.navigation;
     return (
       <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
         <TextInput
           style={styles.input}
+          autoCorrect={false} 
           underlineColorAndroid="transparent"
           placeholder="Email"
           placeholderTextColor="#9a73ef"
@@ -45,6 +50,7 @@ class Inputs extends Component {
         />
         <TextInput
           style={styles.input}
+          autoCorrect={false} 
           underlineColorAndroid="transparent"
           placeholder="Password"
           secureTextEntry = {true}

@@ -19,10 +19,10 @@ export default class ReviewScreen extends React.Component {
     userID: ""
   };
   handleScore(text) {
-    this.state.score = text;
+    this.setState({score :text});
   }
   handleComment(text) {
-    this.state.comment = text;
+    this.setState({comment :text});
   }
   saveReview(score, comment, movieID, userID, type) {
     if ((!(!this.state.score || /^\s*$/.test(this.state.score))) && (this.state.score>0 && this.state.score<=10)) {

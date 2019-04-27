@@ -11,10 +11,16 @@ import ApiController from "../controller/ApiController";
 
 export default class ChangePasswordScreen extends Component {
     state = {
+        email: "",
         oldPassword: "",
         newPassword: "",
         newPassword2: "",
       };
+
+      componentWillMount() {
+        const {state} = this.props.navigation;
+        this.setState( {email : state.params.userEmail})    
+      }
       
       handleNewPassword2 = text => {
         this.state.newPassword2 = text;

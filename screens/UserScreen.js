@@ -1,9 +1,30 @@
 import React from "react";
 import { StyleSheet, ScrollView, Text, TouchableOpacity} from "react-native";
 
+import ApiController from "../controller/ApiController"; 
+
 export default class UserScreen extends React.Component {
+
+  state = {
+    firstName: "",
+    lastName: "",
+    email: "",
+  };
+  componentWillMount() {
+    const {state} = this.props.navigation;
+    this.setState( {email : state.params.userEmail})
+    const api = ApiController;
+    api.getUser(this.state.email).then((response) =>{
+      console.log(response)
+      if (response.ok == true) {
+        this.setState( {firstName : response.firstName})
+        console.log(response.firstName)
+        console.log(this.state.firstName)
+        this.setState( {lastName : response.lastName})
+      }
+    })
+  }
   render() {
-    const {navigate} = this.props.navigation;
     return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
         <Text
@@ -13,7 +34,7 @@ export default class UserScreen extends React.Component {
          <Text
           style={styles.data}
           underlineColorAndroid="transparent"
-        >valor</Text>
+        >{this.state.firstName}</Text>
         <Text
           style={styles.label}
           underlineColorAndroid="transparent"
@@ -21,15 +42,15 @@ export default class UserScreen extends React.Component {
          <Text
           style={styles.data}
           underlineColorAndroid="transparent"
-        >valor 2</Text>
+        >{this.state.lastName}</Text>
          <Text
           style={styles.label}
           underlineColorAndroid="transparent"
-        >Email</Text>
+        ></Text>
         <Text
           style={styles.data}
           underlineColorAndroid="transparent"
-        >valor 3</Text>
+        >{this.state.email}</Text>
         <TouchableOpacity
           style={styles.submitButton}
           onPress={() => {
@@ -37,6 +58,14 @@ export default class UserScreen extends React.Component {
           }}
         >
           <Text style={styles.submitButtonText}> Cambiar Contraseña </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.submitButton}
+          onPress={() => {
+            navigate("Login");
+          }}
+        >
+          <Text style={styles.submitButtonText}> Cerrar Sesion </Text>
         </TouchableOpacity>
       </ScrollView>
     );

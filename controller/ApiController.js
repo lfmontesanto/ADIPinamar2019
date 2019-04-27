@@ -17,9 +17,9 @@ const COMMENT_MOVIE_ENDPOINT = "https://pelispedio.herokuapp.com/api/movies/[mov
 const GET_COMMENTS_BY_SERIE= "https://pelispedio.herokuapp.com/api/series/[seriesID]/comments"
 const COMMENT_SERIES_ENDPOINT = "https://pelispedio.herokuapp.com/api/series/[seriesID]/comment"
 const SEARCH_SERIES_HEROKU = "https://pelispedio.herokuapp.com//api/series/"
-const UPDATE_USER_ENDPOINT = "https://pelispedio.herokuapp.com/api/profile"
+const UPDATE_USER_ENDPOINT = "https://pelispedio.herokuapp.com/api/profile/"
 const LOG_IN_ENDPOINT = "https://pelispedio.herokuapp.com/api/login"
-const GET_USER_ENDPOINT = "https://pelispedio.herokuapp.com/api/profile"
+const GET_USER_ENDPOINT = "https://pelispedio.herokuapp.com/api/profile/"
 const REGISTER_USER_ENDPOINT = "https://pelispedio.herokuapp.com/api/register"
 const GET_USER_ACTIVITY_ENDPOINT = "http://localhost:8080/api/profile/activity"
 
@@ -67,31 +67,23 @@ class ApiController extends React.Component {
     }
 
     async getShowOmdb(imdbID) {                    
-        const finalUrl = GET_SHOWS_ENDPOINT_OMDB.replace("[imdbID]", imdbID);
+        const finalUrl = GET_SHOWS_ENDPOINT_OMDB.replace("[imdbID]", "tt3896198");
+        console.log(finalUrl)
         try {
             let response = await fetch (finalUrl);
-            const data = await response.json();
-            return data.Search
+            const data = JSON.parse(response._bodyInit)
+            console.log(data.Title)
+            return data
         } catch (err){
             console.log(err)
         }
     }
-    async getShowOmdb(imdbID) {                    
-      const finalUrl = GET_SHOWS_ENDPOINT_OMDB.replace("[imdbID]", imdbID);
-      try {
-          let response = await fetch (finalUrl);
-          const data = await response.json();
-          return data.Search
-      } catch (err){
-          console.log(err)
-      }
-  }
+    
     async getCommentsByMovie(movieId) {
         const finalUrl = GET_COMMENTS_BY_MOVIE.replace("[movieID]", movieId);
         try {
             let response = await fetch (finalUrl);
-            const data = await response.json();
-            return data
+            return response._bodyInit
         } catch (err){
             console.log(err)
         }
@@ -129,8 +121,7 @@ class ApiController extends React.Component {
         let finalUrl = `${urlUsers}${user}` 
         try {
             let response = await fetch (finalUrl);
-            const data = await response.json();
-            return data
+            return response
         } catch (err){
             console.log(err)
         }
@@ -176,6 +167,7 @@ class ApiController extends React.Component {
             headers:{ 'Content-Type': 'application/json'},
             body: JSON.stringify(email) // data can be `string` or {object}!
         }
+        console.log(config.body)
         try {
             let response = await fetch (finalUrl,config);
             return response
