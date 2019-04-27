@@ -12,27 +12,31 @@ import ApiController from "../controller/ApiController";
 import ReviewList from "../components/ReviewList";
 
 export default class ShowScreen extends React.Component {
+  
   constructor(props) {
     super(props);
     this.state = {
       show: {},
       reviews:{},
-      loading : false
+      loading : false,
+      param : "1234"
     };
   }
   componentWillMount() {
     const api = ApiController;
-    const showID = this.props.navigation.getParam("show").imdbID;
-    api.getShowOmdb(showID).then(response => {
-      this.setState({show: response});
-    }).then(() => {
-      if (this.state.show.Type == 'movie' ) {
-        api.getCommentsByMovie("5cc20a8e1c9d440000fb05a5").then((response) =>{
-          console.log ("ACA VAN LAS REVIEWS")
-          this.setState({reviews : response})
-        })
-      }
-    });
+    const showDetail = this.props.navigation.getParam("show")
+    if (typeof showDetail._id === 'undefined'){
+      api.getShowOmdb(showDetail.imdbID).then(response => {
+        this.setState({show: response});
+      })
+    } else {
+      this.setState({show: showDetail});
+    }
+    api.getComments(showDetail._id,showDetail.Type).then((response) =>{
+      if (response ){
+        this.setState({reviews : response, loading : true})
+      } 
+    })
   }
   async setReviews(reviews) {
     await this.setReviews({reviews : reviews})
@@ -40,7 +44,6 @@ export default class ShowScreen extends React.Component {
   render() {
     const { navigation } = this.props;
     const reviews = this.state.reviews
-    console.log(reviews)
     const show = this.state.show;
     return (
       <ScrollView style={styles.mainContainer}>

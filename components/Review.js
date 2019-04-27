@@ -10,7 +10,7 @@ export default class Review extends React.Component {
         <View style={styles.header}>
           {
             trigger != 'MyReviews' &&
-            <Text style={styles.textBig}>{review.user}</Text>
+            review.user!=null ? <Text>{review.user.email} </Text> : <Text>Usuario</Text>
           }
           {
             trigger == 'MyReviews' &&

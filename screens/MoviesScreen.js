@@ -21,7 +21,7 @@ export default class MoviesScreen extends React.Component {
   onSearch(searchInput) {
     const api = ApiController;
     if (!(!searchInput || /^\s*$/.test(searchInput))) {
-      api.searchOmdb(searchInput).then(response => {
+      api.searchOmdb(searchInput,"movie").then(response => {
         if (response.length > 0) {
           this.setState({ moviesList: response });
         } else {
