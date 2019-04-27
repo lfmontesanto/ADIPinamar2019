@@ -6,6 +6,7 @@ import {
   TextInput,
   StyleSheet
 } from "react-native";
+import ApiController from "../controller/ApiController";
 
 class Inputs extends Component {
   state = {
@@ -18,20 +19,29 @@ class Inputs extends Component {
   handlePassword = text => {
     this.setState({ password: text });
   };
-  login = email => {
-    //alert('Login successfull '+'email: ' + email );
+  login = (email,password) => {
+    const { navigate } = this.props.navigation;
+    const api = ApiController;
+    api.login(email,password).then((response) =>{
+      if (response.ok == true) {
+        navigate("HomeTabs", {
+          userEmail: email
+        });
+      } else {
+        alert("User/Pass do not match, " + "email: " + email);
+      }
+    })
   };
-
-  loginError = email => {
-    alert("User/Pass do not match, " + "email: " + email);
+  componentWillMount(){
+  
   };
-
   render() {
     const { navigate } = this.props.navigation;
     return (
       <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
         <TextInput
           style={styles.input}
+          autoCorrect={false} 
           underlineColorAndroid="transparent"
           placeholder="Email"
           placeholderTextColor="#9a73ef"
@@ -40,8 +50,10 @@ class Inputs extends Component {
         />
         <TextInput
           style={styles.input}
+          autoCorrect={false} 
           underlineColorAndroid="transparent"
           placeholder="Password"
+          secureTextEntry = {true}
           placeholderTextColor="#9a73ef"
           autoCapitalize="none"
           onChangeText={this.handlePassword}
@@ -49,15 +61,7 @@ class Inputs extends Component {
         <TouchableOpacity
           style={styles.submitButton}
           onPress={() => {
-            // Validate if user exist
-            //if (responde.data.code==200)
-            if (true) {
-              //success
-              this.login(this.state.email);
-              navigate("HomeTabs");
-            } else {
-              this.loginError(this.state.email);
-            }
+              this.login(this.state.email, this.state.password);
           }}
         >
           <Text style={styles.submitButtonText}> Submit </Text>

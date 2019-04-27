@@ -16,38 +16,31 @@ export default class ShowScreen extends React.Component {
     super(props);
     this.state = {
       show: {},
-      reviews: {}
+      reviews:{},
+      loading : false
     };
   }
   componentWillMount() {
     const api = ApiController;
-    const show = this.props.navigation.getParam("show");
-    if (show._id == undefined) {
-      api.getShowOmdb(show.imdbID).then(response => {
-        console.log(response)
-        this.state.show = response;
-      });
-    } else {
-      this.state.show = show;
-    }
-    console.log("LOCALSHOW")
-    console.log("STATESHOW")
-    console.log(this.state.show)
-    console.log('Show ID')
-    console.log(this.state.show._id)
-    api.getCommentsByMovie(this.state.show._id).then(response => {
-      console.log(this.state.show._id)
-      console.log('RESPONSE')
-      console.log(response)
-      this.state.reviews = response;
-      console.log('STATE REVIEWS')
-      console.log(this.state.reviews)
-
+    const showID = this.props.navigation.getParam("show").imdbID;
+    api.getShowOmdb(showID).then(response => {
+      this.setState({show: response});
+    }).then(() => {
+      if (this.state.show.Type == 'movie' ) {
+        api.getCommentsByMovie("5cc20a8e1c9d440000fb05a5").then((response) =>{
+          console.log ("ACA VAN LAS REVIEWS")
+          this.setState({reviews : response})
+        })
+      }
     });
+  }
+  async setReviews(reviews) {
+    await this.setReviews({reviews : reviews})
   }
   render() {
     const { navigation } = this.props;
-    const reviews = navigation.getParam("Reviews");
+    const reviews = this.state.reviews
+    console.log(reviews)
     const show = this.state.show;
     return (
       <ScrollView style={styles.mainContainer}>

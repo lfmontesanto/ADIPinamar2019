@@ -8,13 +8,17 @@ import {
   StyleSheet
 } from "react-native";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
+import ApiController from "../controller/ApiController";
+
 
 import ApiController from "../controller/ApiController";
 
 export default class ReviewScreen extends React.Component {
   state = {
     score: "",
-    comment: ""
+    comment: "",
+    movieID: "",
+    userID: ""
   };
   handleScore = (text) => {
     this.setState({ score: text });
@@ -22,18 +26,16 @@ export default class ReviewScreen extends React.Component {
   handleComment = (text) => {
     this.setState({ comment: text });
   }
-  saveReview() {
-    const api = ApiController;
-    const show = this.props.navigation.getParam("show")
-    if(show._id != undefined) {
-      if(show.Type == "movie") {
-        api.commentMovie(this.props.showId, this.state.comment)
-      }
-      else {
-        api.commentSeries(this.props.showId, this.state.comment)
-      }
-    } else {
-      alert("El show todavía no se encuentra en la base de datos propia")
+  saveReview(score, comment, movieID, userID, type) {
+    if ((!(!this.state.score || /^\s*$/.test(this.state.score))) && (this.state.score>0 && this.state.score<=10)) {
+      const api = ApiController;
+      api.commentShow(showID, comment, score, user, type).then((response) =>{
+        if (response.ok == true) {
+          alert("Review saved :) " );
+        } else {
+          alert("Error saving review");
+        }
+      })
     }
   }
   render() {

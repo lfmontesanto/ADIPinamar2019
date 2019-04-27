@@ -9,37 +9,47 @@ import {
 
 import ApiController from "../controller/ApiController";
 
-export default class RegisterScreen extends Component {
-  state = {
-    firstname: "",
-    lastname: "",
-    email: "",
-    password: ""
-  };
-  
-  handleFirstName = text => {
-    this.setState({ firstname: text });
-  };
-  handleLastName = text => {
-    this.setState({ lastname: text });
-  };
-  handleEmail = text => {
-    this.setState({ email: text });
-  };
-  handlePassword = text => {
-    this.setState({ password: text });
-  };
-  register = (email, password, name, lastname) => {
+export default class ChangePasswordScreen extends Component {
+    state = {
+        email: "",
+        oldPassword: "",
+        newPassword: "",
+        newPassword2: "",
+      };
+
+      componentWillMount() {
+        const {state} = this.props.navigation;
+        this.setState( {email : state.params.userEmail})    
+      }
+      
+      handleNewPassword2 = text => {
+        this.state.newPassword2 = text;
+      };
+      handleNewPassword = text => {
+        this.state.newPassword = text;
+      };
+      handleOldPassword = text => {
+        this.state.oldPassword = text;
+      };
+  changePassword = (email, oldPassword, newPassword) => {
     const { navigate } = this.props.navigation;
     const api = ApiController;
-    api.registerUser(email, password, name, lastname).then((response) =>{
-      if (response.ok == true) {
-        alert("User registered " );
-        navigate("Login")
-      } else {
-        alert("Error creating user ");
-      }
-    })
+    api.getUser(email).then((response) =>{
+        if (response.ok == true) {
+            var userID = response.userid
+            api.registerUser(userID, password, name, lastname).then((response) =>{
+                if (response.ok == true) {
+                  alert("Password changed");
+                  navigate("Login")
+                } else {
+                  alert("Error changing password ");
+                }
+              })
+        } else {
+          alert("Error changing password  ");
+        }
+      })   
+    
   };
   
   validateEmail(email) {
@@ -48,68 +58,48 @@ export default class RegisterScreen extends Component {
   }
  
   render() {
-    const { navigate } = this.props.navigation;
     return (
-      <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
+        <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
         <TextInput
           style={styles.input}
           underlineColorAndroid="transparent"
-          placeholder="FirstName"
+          placeholder="Old Password"
           placeholderTextColor="#9a73ef"
           autoCapitalize="none"
-          onChangeText={this.handleFirstName}
+          onChangeText={this.handleOldPassword}
         />
         <TextInput
           style={styles.input}
           underlineColorAndroid="transparent"
-          placeholder="LastName"
+          placeholder="New Password"
           placeholderTextColor="#9a73ef"
           autoCapitalize="none"
-          onChangeText={this.handleLastName}
+          onChangeText={this.handleNewPassword}
         />
         <TextInput
           style={styles.input}
           underlineColorAndroid="transparent"
-          placeholder="Email"
+          placeholder="New Password"
           placeholderTextColor="#9a73ef"
           autoCapitalize="none"
-          onChangeText={this.handleEmail}
+          onChangeText={this.handleNewPassword2}
         />
-        <TextInput
-          style={styles.input}
-          underlineColorAndroid="transparent"
-          placeholder="Password"
-          secureTextEntry = {true}
-          placeholderTextColor="#9a73ef"
-          autoCapitalize="none"
-          onChangeText={this.handlePassword}
-        />
+    
         <TouchableOpacity
           style={styles.submitButton}
           onPress={() => {
             if ((!(!this.state.email || /^\s*$/.test(this.state.email))) && !((!this.state.password || /^\s*$/.test(this.state.password)))) {
-              if (this.validateEmail(this.state.email)){
-                this.register(this.state.email,this.state.password,this.state.name,this.state.lastname)
+              if (this.state.newPassword == this.state.newPassword2){
+                this.changePassword( "", this.state.oldPassword,this.state.newPassword) 
               } else {
-                alert("Invalid email format");
+                alert("New password doesn't match");
               }
             } else {
-              alert("Invalid email/password format");
+              alert("Invalid password format");
             }  
           }}
         >
           <Text style={styles.submitButtonText}> Submit </Text>
-        </TouchableOpacity>
-        <Text style={styles.getStartedText}>
-          Already registered, go to login
-        </Text>
-        <TouchableOpacity
-          style={styles.loginButton}
-          onPress={() => {
-            navigate("Login");
-          }}
-        >
-          <Text style={styles.loginButtonText}> Login </Text>
         </TouchableOpacity>
       </ScrollView>
     );
