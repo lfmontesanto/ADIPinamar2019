@@ -9,19 +9,32 @@ import {
 } from "react-native";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
 
+import ApiController from "../controller/ApiController";
+
 export default class ReviewScreen extends React.Component {
   state = {
     score: "",
     comment: ""
   };
-  handleScore(text) {
+  handleScore = (text) => {
     this.setState({ score: text });
   }
-  handleComment(text) {
+  handleComment = (text) => {
     this.setState({ comment: text });
   }
   saveReview() {
-    //TODO
+    const api = ApiController;
+    const show = this.props.navigation.getParam("show")
+    if(show._id != undefined) {
+      if(show.Type == "movie") {
+        api.commentMovie(this.props.showId, this.state.comment)
+      }
+      else {
+        api.commentSeries(this.props.showId, this.state.comment)
+      }
+    } else {
+      alert("El show todavía no se encuentra en la base de datos propia")
+    }
   }
   render() {
     const navigation = this.props.navigation;
