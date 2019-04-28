@@ -5,7 +5,7 @@ import {
   ScrollView,
   Text,
   Image,
-  Button,StatusBar
+  Button,
 } from "react-native";
 import ApiController from "../controller/ApiController";
 
@@ -26,20 +26,24 @@ export default class ShowScreen extends React.Component {
       show: {},
       reviews:{},
       loading : false,
-      param : "1234"
+      param : "1234",
+      user: {}
     };
   }
   componentWillMount() {
     const api = ApiController;
     const showDetail = this.props.navigation.getParam("show")
+    const user = this.props.navigation.getParam("user")
+    console.log(showDetail)
     if (typeof showDetail._id === 'undefined'){
       api.getShowOmdb(showDetail.imdbID).then(response => {
         this.setState({show: response});
+        this.setState({user: user})
       })
     } else {
       this.setState({show: showDetail});
     }
-    api.getComments(showDetail._id,showDetail.Type).then((response) =>{
+    api.getComments(showDetail.imdbID,showDetail.Type).then((response) =>{
       if (response ){
         this.setState({reviews : response, loading : true})
       } 
@@ -51,6 +55,7 @@ export default class ShowScreen extends React.Component {
   render() {
     const { navigation } = this.props;
     const show = this.state.show;
+    const user = this.state.user;
     return (
       <ScrollView style={styles.mainContainer}>
         <Image source={{ uri: show.Poster }} style={styles.cover} />
@@ -72,7 +77,7 @@ export default class ShowScreen extends React.Component {
           <Button
             title={"Deja tu reseña"}
             onPress={() => {
-              navigation.navigate("Review", { show, user});
+              navigation.navigate("Review", {show, user});
             }}
           />
         </View>

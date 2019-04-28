@@ -1,8 +1,6 @@
 import React from "react";
 import { View, TouchableOpacity, Text, Image, StyleSheet } from "react-native";
 
-import Reviews from "../constants/Reviews";
-
 export default class DetailCard extends React.Component {
   render() {
     const show = this.props.show;
@@ -13,7 +11,7 @@ export default class DetailCard extends React.Component {
       <TouchableOpacity
         style={styles.mainContainer}
         onPress={() => {
-          navigation.navigate("Show", { show, Reviews, user });
+          navigation.navigate("Show", {show, user });
         }}
       >
         <Image source={{ uri: show.Poster }} style={styles.cover} />

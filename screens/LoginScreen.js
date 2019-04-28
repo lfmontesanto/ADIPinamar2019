@@ -8,6 +8,7 @@ import ApiController from "../controller/ApiController";
 import PasswordInputText from 'react-native-hide-show-password-input';
 import { TextInput, Button, HelperText } from 'react-native-paper';
 
+
 class Inputs extends Component {
   state = {
     email: "",
@@ -22,12 +23,6 @@ class Inputs extends Component {
   handlePassword = text => {
     this.setState({ password: text });
   };
-  getUser = (email) => {
-    const api = ApiController;
-    api.getUser(email).then((response) => {
-      console.log(JSON.stringify(response))
-    })
-  }
   login = (email,password) => {
     this.setState({loading: true})
     const { navigate } = this.props.navigation;
@@ -37,7 +32,8 @@ class Inputs extends Component {
         if (response.ok == true) {
           api.getUser(this.state.email).then((response) =>{
             if (response.ok == true) {
-              let data = await response.json()
+              let data = response.json()
+              console.log(data)
               /**
                * Object {
                   "email": "charly@hotmail.com",
@@ -63,11 +59,13 @@ class Inputs extends Component {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   }
+  componentWillMount(){
+  
+  };
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
-        <Text style={styles.title}>PelisPedio</Text>
+      <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
         <TextInput
         style={styles.input}
           mode = {'flat'}
@@ -98,6 +96,12 @@ class Inputs extends Component {
         >
           <Text style={styles.submitButtonText}> INGRESAR </Text>
         </Button>
+
+        <Text style={styles.getStartedText}>
+          Not registered yet? Register Now
+        </Text>
+
+
         <Button
           icon = "add"
           mode = {'contained'}
@@ -117,16 +121,7 @@ export default Inputs;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 100,
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  title: {
-    fontSize: 60,
-    fontWeight: 'bold',
-    color: "#7a42f4",
-    textAlign: 'center',
-    marginBottom: 50
+    paddingTop: 23
   },
   input: {
     margin: 15,
@@ -145,10 +140,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     backgroundColor: "#7a42f4",
   },
-  buttonsContainer: {
-    flexDirection: 'column',
-    marginTop: 30
+  submitButtonText: {
+    color: "white"
   },
+
   registerButton: {
     marginTop: 15,
     marginLeft: 60,
@@ -157,9 +152,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     backgroundColor: "#7a42f4",
   },
-  mainButtonText: {
-    color: "white",
-    textAlign: 'center',
-    fontWeight: 'bold'
+  registerButtonText: {
+    color: "white"
   }
 });

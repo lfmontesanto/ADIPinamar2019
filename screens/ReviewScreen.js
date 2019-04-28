@@ -42,10 +42,16 @@ export default class ReviewScreen extends React.Component {
       })
     }
   }
-  render() {
+  componentWillMount() {
     const navigation = this.props.navigation;
     const user = navigation.getParam("user")
+    const show = navigation.getParam("show")
     console.log("USER IN REVIEWSCREEN" + user)
+    console.log("SHOW IN REVIEWSCREEN" + show)
+    this.setState({userID: user._id})
+    this.setState({showID: show.imdbID})
+  }
+  render() {
     return (
       <ScrollView
         contentContainerStyle={styles.container}
@@ -81,7 +87,7 @@ export default class ReviewScreen extends React.Component {
             style={styles.buttons}
             title={"Enviar"}
             onPress={() => {
-              this.saveReview(this.state.score, this.state.comment, this.state.showID, this.state.user, this.state.type);
+              this.saveReview(this.state.score, this.state.comment, this.state.showID, this.state.userID, this.state.type);
             }}
           />
         </View>
