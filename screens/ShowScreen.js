@@ -40,6 +40,8 @@ export default class ShowScreen extends React.Component {
   render() {
     const { navigation } = this.props;
     const reviews = this.state.reviews
+    const user = navigation.getParam("user")
+    console.log("USER IN SHOWSCREEN" + user)
     console.log(reviews)
     const show = this.state.show;
     return (
@@ -63,15 +65,15 @@ export default class ShowScreen extends React.Component {
           <Button
             title={"Deja tu reseña"}
             onPress={() => {
-              navigation.navigate("Review", { show });
+              navigation.navigate("Review", { show, user});
             }}
           />
         </View>
         {console.log("REVIEWS BEFORE SENDING")}
         {console.log(this.state.reviews)}
-        {this.state.reviews != undefined &&
+        {/* {this.state.reviews != undefined &&
           <ReviewList reviews={this.state.reviews}/>
-        }
+        } */}
       </ScrollView>
     );
   }

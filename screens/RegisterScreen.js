@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {
+  View,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -50,11 +51,11 @@ export default class RegisterScreen extends Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
+      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
         <TextInput
           style={styles.input}
           underlineColorAndroid="transparent"
-          placeholder="FirstName"
+          placeholder="Nombre"
           placeholderTextColor="#9a73ef"
           autoCapitalize="none"
           onChangeText={this.handleFirstName}
@@ -62,7 +63,7 @@ export default class RegisterScreen extends Component {
         <TextInput
           style={styles.input}
           underlineColorAndroid="transparent"
-          placeholder="LastName"
+          placeholder="Apellido"
           placeholderTextColor="#9a73ef"
           autoCapitalize="none"
           onChangeText={this.handleLastName}
@@ -78,39 +79,38 @@ export default class RegisterScreen extends Component {
         <TextInput
           style={styles.input}
           underlineColorAndroid="transparent"
-          placeholder="Password"
+          placeholder="Constraseña"
           secureTextEntry = {true}
           placeholderTextColor="#9a73ef"
           autoCapitalize="none"
           onChangeText={this.handlePassword}
         />
-        <TouchableOpacity
-          style={styles.submitButton}
-          onPress={() => {
-            if ((!(!this.state.email || /^\s*$/.test(this.state.email))) && !((!this.state.password || /^\s*$/.test(this.state.password)))) {
-              if (this.validateEmail(this.state.email)){
-                this.register(this.state.email,this.state.password,this.state.name,this.state.lastname)
+        <View style={styles.buttonsContainer}>
+          <TouchableOpacity
+            style={styles.mainButton}
+            onPress={() => {
+              if ((!(!this.state.email || /^\s*$/.test(this.state.email))) && !((!this.state.password || /^\s*$/.test(this.state.password)))) {
+                if (this.validateEmail(this.state.email)){
+                  this.register(this.state.email,this.state.password,this.state.name,this.state.lastname)
+                } else {
+                  alert("Invalid email format");
+                }
               } else {
-                alert("Invalid email format");
-              }
-            } else {
-              alert("Invalid email/password format");
-            }  
-          }}
-        >
-          <Text style={styles.submitButtonText}> Submit </Text>
-        </TouchableOpacity>
-        <Text style={styles.getStartedText}>
-          Already registered, go to login
-        </Text>
-        <TouchableOpacity
-          style={styles.loginButton}
-          onPress={() => {
-            navigate("Login");
-          }}
-        >
-          <Text style={styles.loginButtonText}> Login </Text>
-        </TouchableOpacity>
+                alert("Invalid email/password format");
+              }  
+            }}
+          >
+            <Text style={styles.mainButtonText}> Enviar </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.mainButton}
+            onPress={() => {
+              navigate("Login");
+            }}
+          >
+            <Text style={styles.mainButtonText}> Volver </Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     );
   }
@@ -118,31 +118,39 @@ export default class RegisterScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 23
+    paddingTop: 100,
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  title: {
+    fontSize: 60,
+    fontWeight: 'bold',
+    color: "#7a42f4",
+    textAlign: 'center',
+    marginBottom: 50
   },
   input: {
     margin: 15,
     height: 40,
     borderColor: "#7a42f4",
-    borderWidth: 1
+    borderWidth: 1,
+    padding: 10,
+    alignSelf: 'stretch'
   },
-  submitButton: {
+  buttonsContainer: {
+    flexDirection: 'column',
+    marginTop: 30
+  },
+  mainButton: {
     backgroundColor: "#7a42f4",
     padding: 10,
     margin: 15,
-    height: 40
+    height: 40,
+    width: 150
   },
-  submitButtonText: {
-    color: "white"
-  },
-
-  loginButton: {
-    backgroundColor: "#7a42f4",
-    padding: 10,
-    margin: 15,
-    height: 40
-  },
-  loginButtonText: {
-    color: "white"
+  mainButtonText: {
+    color: "white",
+    textAlign: 'center',
+    fontWeight: 'bold'
   }
 });

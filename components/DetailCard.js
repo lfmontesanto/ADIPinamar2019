@@ -7,11 +7,13 @@ export default class DetailCard extends React.Component {
   render() {
     const show = this.props.show;
     const navigation = this.props.navigation;
+    const user = navigation.getParam("user")
+    console.log("USER IN DETAILCARD" + user)
     return (
       <TouchableOpacity
         style={styles.mainContainer}
         onPress={() => {
-          navigation.navigate("Show", { show, Reviews });
+          navigation.navigate("Show", { show, Reviews, user });
         }}
       >
         <Image source={{ uri: show.Poster }} style={styles.cover} />
