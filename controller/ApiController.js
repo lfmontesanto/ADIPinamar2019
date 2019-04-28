@@ -20,7 +20,7 @@ const COMMENT_SERIES_ENDPOINT = "https://pelispedio.herokuapp.com/api/series/[se
 const SEARCH_SERIES_HEROKU = "https://pelispedio.herokuapp.com//api/series/"
 const UPDATE_USER_ENDPOINT = "https://pelispedio.herokuapp.com/api/profile/"
 const LOG_IN_ENDPOINT = "https://pelispedio.herokuapp.com/api/login"
-const GET_USER_ENDPOINT = "https://pelispedio.herokuapp.com/api/profile/"
+const GET_USER_ENDPOINT = "https://pelispedio.herokuapp.com/api/profile"
 const REGISTER_USER_ENDPOINT = "https://pelispedio.herokuapp.com/api/register"
 const GET_USER_ACTIVITY_ENDPOINT = "http://localhost:8080/api/profile/activity"
 
@@ -158,12 +158,13 @@ class ApiController extends React.Component {
         let finalUrl = `${GET_USER_ENDPOINT}` 
         const config = {
             method: 'POST',
-            mode: "cors",
             headers:{ 'Content-Type': 'application/json'},
-            body: JSON.stringify(email) // data can be `string` or {object}!
+            body: JSON.stringify({email : email}) // data can be `string` or {object}!
         }
         try {
             let response = await fetch (finalUrl,config);
+            let data = await response.json()
+            console.log(data.email)
             return response
         } catch (err) {
             console.log(err)

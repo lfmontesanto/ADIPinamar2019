@@ -7,10 +7,10 @@ export default class ReviewList extends React.Component {
   render() {
     const { trigger } = this.props;
     const { reviews } = this.props.reviews
-    const helloMessage = <View><ActivityIndicator size="large" color="#0000ff" /></View>;
+    const showProgress = <View><ActivityIndicator size="large" color="#0000ff" /></View>;
     let message;
     if (this.props.loading) {
-        return helloMessage
+        return showProgress
     } else {
         return (
         <View> 

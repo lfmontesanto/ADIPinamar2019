@@ -2,36 +2,62 @@ import React, { Component } from "react";
 import {
   ScrollView,
   Text,
-  TouchableOpacity,
-  TextInput,
   StyleSheet
 } from "react-native";
 import ApiController from "../controller/ApiController";
+import PasswordInputText from 'react-native-hide-show-password-input';
+import { TextInput, Button, HelperText } from 'react-native-paper';
+
 
 class Inputs extends Component {
   state = {
     email: "",
-    password: ""
+    password: "",
+    loading : false,
+    emailFormatError :false
   };
   handleEmail = text => {
+    this.setState({emailFormatError : false})
     this.setState({ email: text });
   };
   handlePassword = text => {
     this.setState({ password: text });
   };
   login = (email,password) => {
+    this.setState({loading: true})
     const { navigate } = this.props.navigation;
     const api = ApiController;
-    api.login(email,password).then((response) =>{
-      if (response.ok == true) {
-        navigate("HomeTabs", {
-          userEmail: email
-        });
-      } else {
-        alert("User/Pass do not match, " + "email: " + email);
-      }
-    })
+    if (this.validateEmail(email)) {
+      api.login(email,password).then((response) =>{
+        if (response.ok == true) {
+          api.getUser(this.state.email).then((response) =>{
+            if (response.ok == true) {
+              let data = await response.json()
+              /**
+               * Object {
+                  "email": "charly@hotmail.com",
+                  "lastname": "ramallo",
+                  "name": "charly",
+                  "userid": "5cc30195bb6b590017e5896b",
+                }
+               */
+            }
+          }).then(()=>{ this.setState({loading: false})}) 
+          navigate("HomeTabs", {
+            userEmail: email
+          });
+        } else {
+          alert("User/Pass do not match, " + "email: " + email);
+        }
+      })
+    } else {
+      this.setState({emailFormatError : true})
+    }
   };
+  validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
   componentWillMount(){
   
   };
@@ -40,46 +66,52 @@ class Inputs extends Component {
     return (
       <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
         <TextInput
-          style={styles.input}
+        style={styles.input}
+          mode = {'flat'}
           autoCorrect={false} 
           underlineColorAndroid="transparent"
-          placeholder="Email"
-          placeholderTextColor="#9a73ef"
-          autoCapitalize="none"
+          label="Email"
+          value={this.state.email}
           onChangeText={this.handleEmail}
         />
-        <TextInput
-          style={styles.input}
-          autoCorrect={false} 
-          underlineColorAndroid="transparent"
-          placeholder="Password"
-          secureTextEntry = {true}
-          placeholderTextColor="#9a73ef"
-          autoCapitalize="none"
+        <HelperText
+          type="error"
+          visible= {this.state.emailFormatError}
+        >
+         Email address is invalid!
+        </HelperText>
+        <PasswordInputText
           onChangeText={this.handlePassword}
         />
-        <TouchableOpacity
+        <Button
           style={styles.submitButton}
+          icon = "done"
+          compact = {true}
+          loading = {this.state.loading}
+          mode = {'contained'}
           onPress={() => {
               this.login(this.state.email, this.state.password);
           }}
         >
-          <Text style={styles.submitButtonText}> Submit </Text>
-        </TouchableOpacity>
+          <Text style={styles.submitButtonText}> INGRESAR </Text>
+        </Button>
 
         <Text style={styles.getStartedText}>
           Not registered yet? Register Now
         </Text>
 
 
-        <TouchableOpacity
+        <Button
+          icon = "add"
+          mode = {'contained'}
+          compact = {true}
           style={styles.registerButton}
           onPress={() => {
             navigate("Register");
           }}
         >
-          <Text style={styles.registerButtonText}> Register </Text>
-        </TouchableOpacity>
+          <Text style={styles.registerButtonText}> REGISTRARSE </Text>
+        </Button>
       </ScrollView>
     );
   }
@@ -92,25 +124,32 @@ const styles = StyleSheet.create({
   },
   input: {
     margin: 15,
-    height: 40,
-    borderColor: "#7a42f4",
+    backgroundColor :"#FFFFFF"
+  },
+  passInput: {
+    margin: 15,
     borderWidth: 1
   },
   submitButton: {
+    marginTop: 15,
+    marginBottom:15,
+    marginLeft: 60,
+    marginRight: 60,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
     backgroundColor: "#7a42f4",
-    padding: 10,
-    margin: 15,
-    height: 40
   },
   submitButtonText: {
     color: "white"
   },
 
   registerButton: {
+    marginTop: 15,
+    marginLeft: 60,
+    marginRight: 60,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
     backgroundColor: "#7a42f4",
-    padding: 10,
-    margin: 15,
-    height: 40
   },
   registerButtonText: {
     color: "white"

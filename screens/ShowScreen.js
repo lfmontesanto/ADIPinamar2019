@@ -5,13 +5,24 @@ import {
   ScrollView,
   Text,
   Image,
-  Button
+  Button,StatusBar
 } from "react-native";
 import ApiController from "../controller/ApiController";
 
 import ReviewList from "../components/ReviewList";
 
 export default class ShowScreen extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+       title: 'PelisPedio',
+       headerTintColor: 'white',
+       headerStyle: {
+          backgroundColor: '#633689'
+       }
+    }
+ }
+ 
+  
   
   constructor(props) {
     super(props);
