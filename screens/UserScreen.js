@@ -14,15 +14,6 @@ export default class UserScreen extends React.Component {
     const {state} = this.props.navigation;
     this.setState( {email : state.params.userEmail})
     const api = ApiController;
-    api.getUser(this.state.email).then((response) =>{
-      console.log(response)
-      if (response.ok == true) {
-        this.setState( {firstName : response.firstName})
-        console.log(response.firstName)
-        console.log(this.state.firstName)
-        this.setState( {lastName : response.lastName})
-      }
-    })
   }
   render() {
     return (
