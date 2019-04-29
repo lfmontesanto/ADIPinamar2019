@@ -10,6 +10,9 @@ import { TextInput, Button, HelperText } from 'react-native-paper';
 
 
 class Inputs extends Component {
+  static navigationOptions = {
+    header: null
+  };
   state = {
     email: "",
     password: "",
@@ -23,6 +26,12 @@ class Inputs extends Component {
   handlePassword = text => {
     this.setState({ password: text });
   };
+  register () {
+    const { navigate } = this.props.navigation;
+    navigate("Register");
+    this.setState({password: ""})
+    this.setState({email: ""})
+  }
   login = (email,password) => {
     this.setState({loading: true})
     const { navigate } = this.props.navigation;
@@ -32,44 +41,36 @@ class Inputs extends Component {
         if (response.ok == true) {
           api.getUser(this.state.email).then((response) =>{
             if (response.ok == true) {
-              let data = await response.json()
-              /**
-               * Object {
-                  "email": "charly@hotmail.com",
-                  "lastname": "ramallo",
-                  "name": "charly",
-                  "userid": "5cc30195bb6b590017e5896b",
-                }
-               */
             }
           }).then(()=>{ this.setState({loading: false})}) 
           navigate("HomeTabs", {
             userEmail: email
           });
+          this.setState({password: ""})
+          this.setState({email: ""})
         } else {
-          alert("User/Pass do not match, " + "email: " + email);
+          alert("Usuario/Contraseña incorrectos " + "email: " + email);
+          this.setState({loading: false});
         }
       })
     } else {
       this.setState({emailFormatError : true})
+      this.setState({loading: false});
     }
   };
   validateEmail(email) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   }
-  componentWillMount(){
-  
-  };
   render() {
     const { navigate } = this.props.navigation;
     return (
       <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
         <TextInput
-        style={styles.input}
+          style={styles.input}
           mode = {'flat'}
           autoCorrect={false} 
-          underlineColorAndroid="transparent"
+          autoCapitalize="none"
           label="Email"
           value={this.state.email}
           onChangeText={this.handleEmail}
@@ -78,9 +79,10 @@ class Inputs extends Component {
           type="error"
           visible= {this.state.emailFormatError}
         >
-         Email address is invalid!
+         Email ingresado invalido!
         </HelperText>
         <PasswordInputText
+          value={this.state.password}
           onChangeText={this.handlePassword}
         />
         <Button
@@ -95,19 +97,16 @@ class Inputs extends Component {
         >
           <Text style={styles.submitButtonText}> INGRESAR </Text>
         </Button>
-
         <Text style={styles.getStartedText}>
           Not registered yet? Register Now
         </Text>
-
-
         <Button
           icon = "add"
           mode = {'contained'}
           compact = {true}
           style={styles.registerButton}
           onPress={() => {
-            navigate("Register");
+            this.register()
           }}
         >
           <Text style={styles.registerButtonText}> REGISTRARSE </Text>
@@ -120,15 +119,23 @@ export default Inputs;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 23
+    marginTop: 80,    
+  },
+  getStartedText :{
+    marginTop: 15,
+    marginLeft: 60,
+    marginRight: 60,
+    alignItems: 'center',
   },
   input: {
-    margin: 15,
+    marginTop: 15,
+    marginBottom:15,
+    marginLeft: 20,
+    marginRight: 20,
     backgroundColor :"#FFFFFF"
   },
   passInput: {
     margin: 15,
-    borderWidth: 1
   },
   submitButton: {
     marginTop: 15,
@@ -144,7 +151,7 @@ const styles = StyleSheet.create({
   },
 
   registerButton: {
-    marginTop: 15,
+    marginTop: 40,
     marginLeft: 60,
     marginRight: 60,
     alignItems: 'center',
@@ -152,6 +159,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#7a42f4",
   },
   registerButtonText: {
-    color: "white"
+    color: "white",
+    
   }
 });

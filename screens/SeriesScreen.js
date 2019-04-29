@@ -6,6 +6,9 @@ import ApiController from '../controller/ApiController';
 import ShowsList from '../components/ShowsList';
 
 export default class SeriesScreen extends React.Component {
+
+  SEARCH_TYPE_SERIE="series"
+
   static navigationOptions = {
     header: null
   };
@@ -13,14 +16,15 @@ export default class SeriesScreen extends React.Component {
     super(props);
     this.state = {
       seriesList: [],
-      listIsEmptyMessage : ''
+      listIsEmptyMessage : '',
+      visible: false
     };
     this.onSearch = this.onSearch.bind(this);
   }
   onSearch(searchInput) {
     const api = ApiController;
     if (!(!searchInput || /^\s*$/.test(searchInput))) { 
-      api.searchOmdb(searchInput).then((response) =>{ 
+      api.searchOmdb(searchInput,SEARCH_TYPE_SERIE).then((response) =>{ 
         if (response.length>0) {
           this.setState ({seriesList : response})
         } else {
@@ -43,14 +47,10 @@ export default class SeriesScreen extends React.Component {
   render() {
     const navigation = this.props.navigation;
     return (
-      <View style={ styles.container }>
+      <View style = {styles.container}>
         <SearchHeader 
-          style={ styles.searchContainer }
-          action={ this.onSearch }
-        />
-        <ShowsList shows={ this.state.seriesList }
-          navigation={navigation}
-        />
+          style = {styles.searchContainer} action = {this.onSearch}/>
+        <ShowsList shows = {this.state.seriesList} navigation = {navigation} />
       </View>
     );
   }
@@ -58,6 +58,7 @@ export default class SeriesScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: "column",
     flex: 1,
     backgroundColor: "#fff"
   },

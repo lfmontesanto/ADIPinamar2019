@@ -12,7 +12,7 @@ export const HomeTabs = createMaterialTopTabNavigator(
     "Mis Reseñas": { screen: MyReviewsScreen },
     Usuario: { screen: UserScreen }
   },
-  { 
+  {
     tabBarPosition: 'top',
     swipeEnabled: true,
     animationEnabled: true,

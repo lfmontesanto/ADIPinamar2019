@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   ScrollView,
   Text,
@@ -9,7 +9,7 @@ import {
 
 import ApiController from "../controller/ApiController";
 
-export default class ChangePasswordScreen extends Component {
+export default class ChangePasswordScreen extends React.Component {
     state = {
         email: "",
         oldPassword: "",
@@ -19,7 +19,7 @@ export default class ChangePasswordScreen extends Component {
 
       componentWillMount() {
         const {state} = this.props.navigation;
-        this.setState( {email : state.params.userEmail})    
+        this.setState({email : state.params.userEmail})    
       }
       
       handleNewPassword2 = text => {

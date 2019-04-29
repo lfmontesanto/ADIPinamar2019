@@ -6,6 +6,8 @@ import SearchHeader from "./SearchHeader";
 import ApiController from "../controller/ApiController";
 
 export default class MoviesScreen extends React.Component {
+  
+  SEARCH_TYPE_MOVIE = "movie"
   static navigationOptions = {
     header: null
   };
@@ -21,7 +23,7 @@ export default class MoviesScreen extends React.Component {
   onSearch(searchInput) {
     const api = ApiController;
     if (!(!searchInput || /^\s*$/.test(searchInput))) {
-      api.searchOmdb(searchInput,"movie").then(response => {
+      api.searchOmdb(searchInput,SEARCH_TYPE_MOVIE).then(response => {
         if (response.length > 0) {
           this.setState({ moviesList: response });
         } else {

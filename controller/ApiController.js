@@ -107,13 +107,14 @@ class ApiController extends React.Component {
                 finalUrl = `${GET_COMMENTS_BY_MOVIE.replace("[movieID]", showID)}`;
                 break;
             case OMDB_TYPE_SERIES:
-                finalUrl = `${GET_COMMENTS_BY_SERIES.replace("[movieID]", showID)}`;
+                finalUrl = `${GET_COMMENTS_BY_SERIES.replace("[seriesID]", showID)}`;
                 break;
             default:
                 break;
           }                 
         try {
             let response = await fetch (finalUrl);
+            console.log(response)
             const data = JSON.parse(response._bodyInit)
             console.log(finalUrl)
             return data
@@ -163,8 +164,6 @@ class ApiController extends React.Component {
         }
         try {
             let response = await fetch (finalUrl,config);
-            let data = await response.json()
-            console.log(data.email)
             return response
         } catch (err) {
             console.log(err)
@@ -200,13 +199,13 @@ class ApiController extends React.Component {
         const finalUrl = GET_USER_ACTIVITY_ENDPOINT;
         const config = {
             method: 'POST', 
-            mode: "cors",
             headers:{ 'Content-Type': 'application/json'},
-            body: JSON.stringify(userID) // data can be `string` or {object}!
+            body: JSON.stringify({user : userID}) // data can be `string` or {object}!
         }
         try {
             let response = await fetch (finalUrl,config);
-            return response
+            let data = await response.json()
+            return data
         } catch (err) {
             console.log(err)
         }
@@ -216,7 +215,7 @@ class ApiController extends React.Component {
         password: password,
         name: name,
         lastname: lastname
-    }
+        }
         const finalUrl = REGISTER_USER_ENDPOINT
         const config = {
             method: 'POST',

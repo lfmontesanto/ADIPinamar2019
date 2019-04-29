@@ -5,7 +5,7 @@ import {
   ScrollView,
   Text,
   Image,
-  Button,StatusBar
+  Button
 } from "react-native";
 import ApiController from "../controller/ApiController";
 
@@ -21,9 +21,6 @@ export default class ShowScreen extends React.Component {
        }
     }
  }
- 
-  
-  
   constructor(props) {
     super(props);
     this.state = {
@@ -42,8 +39,9 @@ export default class ShowScreen extends React.Component {
       })
     } else {
       this.setState({show: showDetail});
+      console.log(showDetail)
     }
-    api.getComments(showDetail._id,showDetail.Type).then((response) =>{
+    api.getComments(showDetail.imdbID,showDetail.Type).then((response) =>{
       if (response ){
         this.setState({reviews : response, loading : true})
       } 

@@ -2,19 +2,24 @@ import React, { Component } from "react";
 import {
   ScrollView,
   Text,
-  TouchableOpacity,
-  TextInput,
   StyleSheet
 } from "react-native";
 
 import ApiController from "../controller/ApiController";
+import { TextInput, Button, HelperText } from 'react-native-paper';
+import PasswordInputText from 'react-native-hide-show-password-input';
 
 export default class RegisterScreen extends Component {
+  static navigationOptions = {
+    header: null
+  };
   state = {
     firstname: "",
     lastname: "",
     email: "",
-    password: ""
+    password: "",
+    loading : false,
+    emailFormatError :false
   };
   
   handleFirstName = text => {
@@ -24,6 +29,7 @@ export default class RegisterScreen extends Component {
     this.setState({ lastname: text });
   };
   handleEmail = text => {
+    this.setState({emailFormatError : false})
     this.setState({ email: text });
   };
   handlePassword = text => {
@@ -32,14 +38,23 @@ export default class RegisterScreen extends Component {
   register = (email, password, name, lastname) => {
     const { navigate } = this.props.navigation;
     const api = ApiController;
-    api.registerUser(email, password, name, lastname).then((response) =>{
-      if (response.ok == true) {
-        alert("User registered " );
-        navigate("Login")
-      } else {
-        alert("Error creating user ");
+    this.setState({loading: true})
+    api.getUser(email).then((response) =>{
+      if (response.status == 404) {
+        api.registerUser(email, password, name, lastname).then((response) =>{
+          if (response.ok == true) {
+            alert("Usuario registrado correctamente" );
+            navigate("Login")
+          } else {
+            alert("Error al crear el usuario. Intente nuevamente ");
+          }
+        })
+      } else if (response.status == 200) {
+        alert("El usuario ya existe");
       }
-    })
+      this.setState({loading: false})
+    });
+    
   };
   
   validateEmail(email) {
@@ -53,64 +68,75 @@ export default class RegisterScreen extends Component {
       <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
         <TextInput
           style={styles.input}
+          mode = {'outlined'}
+          autoCorrect={false} 
           underlineColorAndroid="transparent"
-          placeholder="FirstName"
-          placeholderTextColor="#9a73ef"
-          autoCapitalize="none"
+          label="Nombre"
+          value={this.state.firstname}
           onChangeText={this.handleFirstName}
         />
-        <TextInput
+         <TextInput
           style={styles.input}
+          mode = {'outlined'}
+          autoCorrect={false} 
           underlineColorAndroid="transparent"
-          placeholder="LastName"
-          placeholderTextColor="#9a73ef"
-          autoCapitalize="none"
+          label="Apellido"
+          value={this.state.lastname}
           onChangeText={this.handleLastName}
         />
+         <HelperText
+          type="error"
+          visible= {this.state.emailFormatError}
+        >
+           Email address is invalid!
+        </HelperText>
         <TextInput
           style={styles.input}
-          underlineColorAndroid="transparent"
-          placeholder="Email"
-          placeholderTextColor="#9a73ef"
+          mode = {'outlined'}
+          autoCorrect={false} 
           autoCapitalize="none"
+          underlineColorAndroid="transparent"
+          label="Email"
+          value={this.state.email}
           onChangeText={this.handleEmail}
         />
-        <TextInput
-          style={styles.input}
-          underlineColorAndroid="transparent"
-          placeholder="Password"
-          secureTextEntry = {true}
-          placeholderTextColor="#9a73ef"
-          autoCapitalize="none"
+        <PasswordInputText
           onChangeText={this.handlePassword}
         />
-        <TouchableOpacity
+        <Button
           style={styles.submitButton}
+          icon = "done"
+          compact = {true}
+          loading = {this.state.loading}
+          mode = {'contained'}
           onPress={() => {
             if ((!(!this.state.email || /^\s*$/.test(this.state.email))) && !((!this.state.password || /^\s*$/.test(this.state.password)))) {
               if (this.validateEmail(this.state.email)){
                 this.register(this.state.email,this.state.password,this.state.name,this.state.lastname)
               } else {
-                alert("Invalid email format");
+                this.setState({emailFormatError : true})
               }
             } else {
-              alert("Invalid email/password format");
+              alert("Formato de Email/Contraseña invalidos");
             }  
           }}
         >
-          <Text style={styles.submitButtonText}> Submit </Text>
-        </TouchableOpacity>
+          <Text style={styles.submitButtonText}> REGISTRAR </Text>
+        </Button>
         <Text style={styles.getStartedText}>
           Already registered, go to login
         </Text>
-        <TouchableOpacity
+        <Button
+          icon = "add"
+          mode = {'contained'}
+          compact = {true}
           style={styles.loginButton}
           onPress={() => {
             navigate("Login");
           }}
         >
-          <Text style={styles.loginButtonText}> Login </Text>
-        </TouchableOpacity>
+          <Text style={styles.loginButton}> LOG IN </Text>
+        </Button>
       </ScrollView>
     );
   }
@@ -118,29 +144,40 @@ export default class RegisterScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 23
+    marginTop : 40
   },
   input: {
-    margin: 15,
-    height: 40,
-    borderColor: "#7a42f4",
-    borderWidth: 1
+    marginBottom: 45,
+    marginTop : 0,
+    marginLeft : 15,
+    marginRight : 15
+  },
+  inputEmail:{
+    marginBottom: 40,
+    marginTop : 0,
+    marginLeft : 15,
+    marginRight : 15
   },
   submitButton: {
     backgroundColor: "#7a42f4",
-    padding: 10,
-    margin: 15,
-    height: 40
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    marginBottom: 30,
+    marginTop : 10,
+    marginLeft : 60,
+    marginRight : 60
   },
   submitButtonText: {
     color: "white"
   },
-
   loginButton: {
     backgroundColor: "#7a42f4",
-    padding: 10,
-    margin: 15,
-    height: 40
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    marginBottom: 30,
+    marginTop : 25,
+    marginLeft : 60,
+    marginRight : 60
   },
   loginButtonText: {
     color: "white"

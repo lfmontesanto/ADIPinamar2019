@@ -19,6 +19,8 @@
     "react-native-autogrow-textinput": "^5.2.0",
     "react-native-hide-show-password-input": "^1.0.7",
     "react-native-paper": "^2.15.2",
+    "react-native-star-rating": "^1.1.0",
+    "react-native-vector-icons": "^6.4.2",
     "react-navigation": "^3.0.9",
     "react-navigation-material-bottom-tabs": "^1.0.0"
   },
