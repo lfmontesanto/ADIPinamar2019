@@ -15,19 +15,17 @@ export default class ReviewScreen extends React.Component {
   state = {
     score: "",
     comment: "",
-    movieID: "",
-    userID: ""
   };
-  handleScore(text) {
-    this.setState({score :text});
-  }
-  handleComment(text) {
-    this.setState({comment :text});
-  }
-  saveReview(score, comment, movieID, userID, type) {
+  handleScore = text => {
+    this.setState({ score: text });
+  };
+  handleComment = text => {
+    this.setState({ comment: text });
+  };
+  saveReview(score, comment, showID, userID) {
     if ((!(!this.state.score || /^\s*$/.test(this.state.score))) && (this.state.score>0 && this.state.score<=10)) {
       const api = ApiController;
-      api.commentShow(showID, comment, score, user, type).then((response) =>{
+      api.commentShow(showID, comment, score, userID).then((response) =>{
         if (response.ok == true) {
           alert("Review saved :) " );
         } else {
@@ -73,7 +71,7 @@ export default class ReviewScreen extends React.Component {
             style={styles.buttons}
             title={"Enviar"}
             onPress={() => {
-              saveReview();
+              this.saveReview(this.state.score,this.state.comment,"22","22");
             }}
           />
         </View>

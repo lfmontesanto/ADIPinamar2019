@@ -23,7 +23,7 @@ export default class MoviesScreen extends React.Component {
   onSearch(searchInput) {
     const api = ApiController;
     if (!(!searchInput || /^\s*$/.test(searchInput))) {
-      api.searchOmdb(searchInput,SEARCH_TYPE_MOVIE).then(response => {
+      api.searchOmdb(searchInput,this.SEARCH_TYPE_MOVIE).then(response => {
         if (response.length > 0) {
           this.setState({ moviesList: response });
         } else {
@@ -48,7 +48,7 @@ export default class MoviesScreen extends React.Component {
     return (
       <View style={styles.container}>
         <SearchHeader style={styles.searchContainer} action={this.onSearch} />
-        <ShowsList shows={this.state.moviesList} navigation={navigation} />
+        <ShowsList style={styles.showListContainer} shows={this.state.moviesList} navigation={navigation} />
       </View>
     );
   }
@@ -61,6 +61,9 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     alignItems: "center",
-    marginBottom: 10
+  },
+  showListContainer: {
+    alignItems: "center",
+    marginTop : 5
   }
 });

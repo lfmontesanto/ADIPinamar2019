@@ -6,7 +6,6 @@ const OMDB_GET_KEY = "&i="
 const OMDB_TYPE_KEY = "&type="
 const OMDB_TYPE_MOVIE ="movie"
 const OMDB_TYPE_SERIES ="series"
-const HEROKU_TYPE_MOVIE = "movies"
 const OMDB_ENDPOINT = "http://www.omdbapi.com/?apikey="
 const GET_MOVIES_ENDPOINT_HEROKU = "https://pelispedio.herokuapp.com/api/getMovies/"
 const SEARCH_MOVIES_ENDPOINT_HEROKU = "https://pelispedio.herokuapp.com/api/movies/"
@@ -169,12 +168,13 @@ class ApiController extends React.Component {
             console.log(err)
         }
     }
-    async commentShow(showID, comment, score, user, type) {
-        var review = {userid: user, score: score, comment: comment }
+    async commentShow(showID, comment, score, user) {
+        let type = "movie"
+        var review = {userid: "5cc30195bb6b590017e5896b", score: 4, comment: "prueba 4/30" }
         let finalUrl = ""
         switch (type) {
             case OMDB_TYPE_MOVIE:
-                finalUrl = COMMENT_MOVIE_ENDPOINT.replace("[movieID]", showID);
+                finalUrl = COMMENT_MOVIE_ENDPOINT.replace("[movieID]", "tt1201607");
                 break;
             case OMDB_TYPE_SERIES:
                 finalUrl = COMMENT_SERIES_ENDPOINT.replace("[seriesID]", showID);
@@ -184,12 +184,12 @@ class ApiController extends React.Component {
         }
         const config = {
             method: 'POST',
-            mode: "cors",
             headers:{ 'Content-Type': 'application/json'},
             body: JSON.stringify(review) // data can be `string` or {object}!
         }
         try {
             let response = await fetch (finalUrl,config);
+            console.log(response)
             return response
         } catch (err) {
             console.log(err)

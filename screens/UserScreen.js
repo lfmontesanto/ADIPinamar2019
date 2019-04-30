@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, ScrollView, Text, TouchableOpacity} from "react-native";
 
 import ApiController from "../controller/ApiController"; 
+import { TextInput } from "react-native-paper";
 
 export default class UserScreen extends React.Component {
 
@@ -22,26 +23,29 @@ export default class UserScreen extends React.Component {
           style={styles.label}
           underlineColorAndroid="transparent"
         >First Name</Text>
-         <Text
+         <TextInput
           style={styles.data}
           underlineColorAndroid="transparent"
-        >{this.state.firstName}</Text>
+          disabled = {true}
+        >{this.state.firstName}</TextInput>
         <Text
           style={styles.label}
           underlineColorAndroid="transparent"
         >Last Name</Text>
-         <Text
+         <TextInput
           style={styles.data}
+          disabled = {true}
           underlineColorAndroid="transparent"
-        >{this.state.lastName}</Text>
-         <Text
+        >{this.state.lastName}</TextInput>
+        <Text
           style={styles.label}
           underlineColorAndroid="transparent"
-        ></Text>
-        <Text
+        >Email</Text>
+        <TextInput
           style={styles.data}
+          disabled = {true}
           underlineColorAndroid="transparent"
-        >{this.state.email}</Text>
+        >{this.state.email}</TextInput>
         <TouchableOpacity
           style={styles.submitButton}
           onPress={() => {

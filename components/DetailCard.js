@@ -1,40 +1,45 @@
 import React from "react";
 import { View, TouchableOpacity, Text, Image, StyleSheet } from "react-native";
+import { Avatar, Card, Title, Paragraph,Button,Divider } from 'react-native-paper';
+
 
 import Reviews from "../constants/Reviews";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default class DetailCard extends React.Component {
   render() {
     const show = this.props.show;
     const navigation = this.props.navigation;
     return (
-      <TouchableOpacity
-        style={styles.mainContainer}
+      <Card style={styles.cardContainer}
+        elevation = {2} 
         onPress={() => {
-          navigation.navigate("Show", { show, Reviews });
-        }}
-      >
-        <Image source={{ uri: show.Poster }} style={styles.cover} />
-        <View style={styles.descContainer}>
-          <Text style={styles.title}>{show.Title}</Text>
-          {show.Score != undefined &&
-            <Text style={styles.mainText}>Valoración: {show.Score}</Text>
-          }
-          <Text style={styles.mainText}>Año: {show.Year}</Text>
-          {show.Genre &&
-             <Text style={styles.mainText}>{show.Genre}</Text>
-          }
-          {show.Plot &&
-            <Text
-              style={styles.description}
-              ellipsisMode="tail"
-              numberOfLines={3}
-              >
-                {show.Plot}
-            </Text>
-          }
-        </View>
-      </TouchableOpacity>
+            navigation.navigate("Show", { show, Reviews });
+          }}
+        >
+        <Card.Content style={styles.mainContainer} >
+          <Image style={styles.cover} source={{ uri: show.Poster}}/>
+          <View style={styles.descContainer}>
+              <Title style={styles.title}>{show.Title}</Title>
+                {show.Score != undefined &&
+                  <Text style={styles.mainText}>Valoración: {show.Score}</Text>
+                }
+                <Text style={styles.mainText}>Año: {show.Year}</Text>
+                {show.Genre &&
+                  <Text style={styles.mainText}>Genero: {show.Genre}</Text>
+                }
+                {show.Plot &&
+                  <Paragraph
+                    style={styles.description}
+                    ellipsisMode="tail"
+                    numberOfLines={3}
+                    >
+                      {show.Plot}
+                  </Paragraph>
+                }
+          </View>
+        </Card.Content>
+    </Card>
     );
   }
 }
@@ -42,15 +47,19 @@ export default class DetailCard extends React.Component {
 const styles = StyleSheet.create({
   mainContainer: {
     flexDirection: "row",
-    marginBottom: 15
+    marginBottom: 5,
+    marginTop:5
+  },
+  cardContainer :{
+    marginTop: 5,
+    marginBottom:5
   },
   cover: {
-    height: 200,
-    width: 150,
+    flex:1,
     marginRight: 10
   },
   descContainer: {
-    flex: 1,
+    flex: 1.3,
     flexDirection: "column"
   },
   title: {

@@ -7,6 +7,8 @@ import {
   Image,
   Button
 } from "react-native";
+
+import { Avatar, Card, Title, Paragraph } from 'react-native-paper';
 import ApiController from "../controller/ApiController";
 
 import ReviewList from "../components/ReviewList";
@@ -57,7 +59,7 @@ export default class ShowScreen extends React.Component {
     return (
       <ScrollView style={styles.mainContainer}>
         <Image source={{ uri: show.Poster }} style={styles.cover} />
-        <View style={styles.descContainer}>
+        <Card style={styles.descContainer}>
           <Text style={styles.title}>{show.Title}</Text>
           <Text style={styles.textNormal}>Valoración: {show.Score}</Text>
           <Text style={styles.textNormal}>Duración: {show.Runtime}</Text>
@@ -69,7 +71,7 @@ export default class ShowScreen extends React.Component {
           </Text>
           <Text style={styles.summary}>Sinopsis</Text>
           <Text style={styles.description}>{show.Plot}</Text>
-        </View>
+        </Card>
         <View style={styles.reviewsHeader}>
           <Text style={styles.reviews}>Reseñas</Text>
           <Button
@@ -94,7 +96,6 @@ const styles = StyleSheet.create({
   },
   descContainer: {
     flexDirection: "column",
-    padding: 10,
     borderBottomWidth: 2,
     borderBottomColor: 633689
   },
