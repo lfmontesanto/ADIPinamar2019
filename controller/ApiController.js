@@ -124,12 +124,12 @@ class ApiController extends React.Component {
         let finalUrl = `${UPDATE_USER_ENDPOINT}` 
         const config = {
             method: 'PUT',
-            mode: "cors",
             headers:{ 'Content-Type': 'application/json'},
             body: JSON.stringify(user) // data can be `string` or {object}!
         }
         try {
             let response = await fetch (finalUrl,config);
+            console.log(response)
             return response
         } catch (err) {
             console.log(err)
@@ -165,13 +165,12 @@ class ApiController extends React.Component {
             console.log(err)
         }
     }
-    async commentShow(showID, comment, score, user) {
-        let type = "movie"
-        var review = {userid: "5cc30195bb6b590017e5896b", score: 4, comment: "prueba 4/30" }
+    async commentShow(showID, comment, score, userID,type) {
+        var review = {userid: userID, score: score, comment: comment }
         let finalUrl = ""
         switch (type) {
             case OMDB_TYPE_MOVIE:
-                finalUrl = COMMENT_MOVIE_ENDPOINT.replace("[movieID]", "tt1201607");
+                finalUrl = COMMENT_MOVIE_ENDPOINT.replace("[movieID]", showID);
                 break;
             case OMDB_TYPE_SERIES:
                 finalUrl = COMMENT_SERIES_ENDPOINT.replace("[seriesID]", showID);

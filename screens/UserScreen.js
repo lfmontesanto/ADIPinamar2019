@@ -17,6 +17,7 @@ export default class UserScreen extends React.Component {
     const api = ApiController;
   }
   render() {
+    const { navigate } = this.props.navigation;
     return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
         <Text
@@ -50,7 +51,8 @@ export default class UserScreen extends React.Component {
           mode = {'contained'}
           style={styles.submitButton}
           onPress={() => {
-            navigate("ChangePassword");
+            navigate("ChangePassword",
+            {userEmail: this.state.email});
           }}
         >
           <Text style={styles.submitButtonText}> Cambiar Contraseña </Text>
@@ -71,14 +73,20 @@ export default class UserScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 15,
+    marginTop: 10,
     marginBottom: 15
   },
   label: {
-    margin: 15,
+    marginTop:10,
+    marginBottom:10,
+    marginRight:20,
+    marginLeft:20,
     color : "#9a73ef"
   },data: {
-    margin: 15,
+    marginTop:10,
+    marginBottom:10,
+    marginRight:20,
+    marginLeft:20,
   },
   submitButton: {
     backgroundColor: "#7a42f4",

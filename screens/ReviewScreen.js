@@ -14,8 +14,8 @@ export default class ReviewScreen extends React.Component {
   state = {
     score: "",
     comment: "",
-    showID: "5cc208cd1c9d440000fb05a4",
-    userID: "5cc3bd7a32c9410017a0b1b3",
+    showId: "",
+    userId: "",
     type: "movie"
   };
   handleScore = (text) => {
@@ -24,7 +24,7 @@ export default class ReviewScreen extends React.Component {
   handleComment = (text) => {
     this.setState({ comment: text });
   }
-  saveReview = (score, comment, showID, userID, type) => {
+  saveReview = (score, comment, showId, userId, type) => {
     if ((!(!score || /^\s*$/.test(score))) && (score>0 && score<=10)) {
       const api = ApiController;
       console.log(
@@ -32,7 +32,7 @@ export default class ReviewScreen extends React.Component {
         "score: " + score,
         "type: " + type
       )
-      api.commentShow(showID, comment, score, userID, type).then((response) =>{
+      api.commentShow(showId, comment, score, userId, type).then((response) =>{
         if (response.ok == true) {
           alert("Review saved :) " );
         } else {
@@ -43,10 +43,12 @@ export default class ReviewScreen extends React.Component {
   }
   componentWillMount() {
     const navigation = this.props.navigation;
-    const user = navigation.getParam("user")
-    const show = navigation.getParam("show")
-    this.setState({userID: user._id})
-    this.setState({showID: show.imdbID})
+    const user = navigation.getParam("userID")
+    const show = navigation.getParam("showID")
+    this.setState({userId: user})
+    this.setState({showId: show})
+    console.log(show)
+    console.log(user)
   }
   render() {
     return (
@@ -84,7 +86,7 @@ export default class ReviewScreen extends React.Component {
             style={styles.buttons}
             title={"Enviar"}
             onPress={() => {
-              this.saveReview(this.state.score, this.state.comment, this.state.showID, this.state.userID, this.state.type);
+              this.saveReview(this.state.score, this.state.comment, this.state.showId, this.state.userId, this.state.type);
             }}
           />
         </View>

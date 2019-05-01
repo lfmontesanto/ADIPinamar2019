@@ -6,12 +6,14 @@ export default class DetailCard extends React.Component {
   render() {
     const show = this.props.show;
     const navigation = this.props.navigation;
-    const user = navigation.getParam("user")
+    const user = navigation.getParam("userId")
+    console.log(user)
+    console.log(show)
     return (
       <Card style={styles.cardContainer}
         elevation = {2} 
         onPress={() => {
-            navigation.navigate("Show", { show });
+            navigation.navigate("Show",{show:show, userId:user});
           }}
         >
         <Card.Content style={styles.mainContainer} >
@@ -19,7 +21,7 @@ export default class DetailCard extends React.Component {
           style={styles.cover} 
           resizeMode={'contain'}
           source={(show.Poster.length === 0 || !show.Poster.trim())
-            ? {uri:'https://www.jainsusa.com/images/store/landscape/not-available.jpg'}             // Use object with 'uri'
+            ? {uri:'https://www.jainsusa.com/images/store/landscape/not-available.jpg'}     
             : {uri: show.Poster}         
           }
          />
@@ -36,8 +38,7 @@ export default class DetailCard extends React.Component {
                   <Paragraph
                     style={styles.description}
                     ellipsisMode="tail"
-                    numberOfLines={3}
-                    >
+                    numberOfLines={3}>
                       {show.Plot}
                   </Paragraph>
                 }

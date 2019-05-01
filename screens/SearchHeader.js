@@ -12,6 +12,7 @@ class SearchHeader extends Component {
                 placeholder = "Search"
                 onChangeText = { query => { this.setState({ firstQuery: query }); } }
                 onSubmitEditing = { () => this.props.action(firstQuery) } 
+                onIconPress = {() => this.props.action(firstQuery)}
                 value = { firstQuery }
             />                
         )

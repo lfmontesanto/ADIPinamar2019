@@ -6,6 +6,7 @@ import {
   StyleSheet
 } from "react-native";
 
+import LottieView from 'lottie-react-native';
 import ApiController from "../controller/ApiController";
 import { TextInput, Button, HelperText } from 'react-native-paper';
 import PasswordInputText from 'react-native-hide-show-password-input';
@@ -67,43 +68,55 @@ export default class RegisterScreen extends Component {
     const { navigate } = this.props.navigation;
     return (
       <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
-        <TextInput
-          style={styles.input}
-          mode = {'outlined'}
-          autoCorrect={false} 
-          underlineColorAndroid="transparent"
-          label="Nombre"
-          value={this.state.firstname}
-          onChangeText={this.handleFirstName}
-        />
-         <TextInput
-          style={styles.input}
-          mode = {'outlined'}
-          autoCorrect={false} 
-          underlineColorAndroid="transparent"
-          label="Apellido"
-          value={this.state.lastname}
-          onChangeText={this.handleLastName}
-        />
-         <HelperText
-          type="error"
-          visible= {this.state.emailFormatError}
-        >
-           Email address is invalid!
-        </HelperText>
-        <TextInput
-          style={styles.input}
-          mode = {'outlined'}
-          autoCorrect={false} 
-          autoCapitalize="none"
-          underlineColorAndroid="transparent"
-          label="Email"
-          value={this.state.email}
-          onChangeText={this.handleEmail}
-        />
-        <PasswordInputText
-          onChangeText={this.handlePassword}
-        />
+      {
+        this.state.loading == true 
+            ?  <View>
+                <LottieView 
+                style ={styles.animation}  
+                source={require('../assets/animations/410-lego-loader.json')} 
+                autoPlay loop />
+              </View>
+            : <View>
+                <TextInput
+                  style={styles.input}
+                  mode = {'outlined'}
+                  autoCorrect={false} 
+                  underlineColorAndroid="transparent"
+                  label="Nombre"
+                  value={this.state.firstname}
+                  onChangeText={this.handleFirstName}
+                />
+                <TextInput
+                  style={styles.input}
+                  mode = {'outlined'}
+                  autoCorrect={false} 
+                  underlineColorAndroid="transparent"
+                  label="Apellido"
+                  value={this.state.lastname}
+                  onChangeText={this.handleLastName}
+                />
+                <HelperText
+                  type="error"
+                  visible= {this.state.emailFormatError}
+                >
+                  Email address is invalid!
+                </HelperText>
+                <TextInput
+                  style={styles.input}
+                  mode = {'outlined'}
+                  autoCorrect={false} 
+                  autoCapitalize="none"
+                  underlineColorAndroid="transparent"
+                  label="Email"
+                  value={this.state.email}
+                  onChangeText={this.handleEmail}
+                />
+                <PasswordInputText
+                  onChangeText={this.handlePassword}
+                />
+            </View>
+      }
+        
         <Button
           style={styles.submitButton}
           icon = "done"
@@ -167,6 +180,13 @@ const styles = StyleSheet.create({
     marginTop : 10,
     marginLeft : 60,
     marginRight : 60
+  },
+  animation:{
+    flex : 1,
+    justifyContent: 'center',
+    marginTop:10,
+    height :400,
+    width:400,
   },
   buttonsContainer: {
     flexDirection: 'column',

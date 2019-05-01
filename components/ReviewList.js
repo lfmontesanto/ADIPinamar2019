@@ -1,7 +1,8 @@
 import React from "react";
 import { View , ActivityIndicator, Text, StyleSheet, FlatList} from "react-native";
-
+import LottieView from 'lottie-react-native';
 import Review from "../components/Review";
+import { Subheading } from "react-native-paper";
 
 export default class ReviewList extends React.Component {
   render() {
@@ -20,7 +21,14 @@ export default class ReviewList extends React.Component {
               renderItem={({item}) =>  <Review review={item} trigger={trigger} />}
               keyExtractor={(item, index) => index.toString()}
               /> 
-            : <Text>No se han realizado comentarios, ingresa el tuyo :)</Text>
+            : <View>
+                <Subheading style ={styles.message}>No han realizado comentarios sobre este show todavia. Dejanos el tuyo :)</Subheading>
+                <LottieView 
+                style ={styles.animation} 
+                autoSize = {true} 
+                source={require('../assets/animations/629-empty-box.json')} 
+                autoPlay loop />
+              </View>
           } 
         </View> )
     }
@@ -29,12 +37,19 @@ export default class ReviewList extends React.Component {
 const styles = StyleSheet.create({
   container: {
    flex: 1,
+   flexDirection : "column",
    paddingTop: 5,
    marginBottom:10
   },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
+  animation:{
+    justifyContent: 'center',
+    flex : 1,
+    height :300,
+    width:300,
   },
+  message:{
+    flex : 0.5,
+    marginLeft:15,
+    marginRight:15
+  }
 })

@@ -31,17 +31,19 @@ export default class ShowScreen extends React.Component {
       reviews:{},
       loading : false,
       param : "1234",
-      user: {}
+      userId: ""
     };
   }
   componentWillMount() {
     const api = ApiController;
     const showDetail = this.props.navigation.getParam("show")
-    const user = this.props.navigation.getParam("user")
+    const user = this.props.navigation.getParam("userId")
+    this.setState({userId: user})
+    this.setState({show: showDetail})
     if (typeof showDetail._id === 'undefined'){
       api.getShowOmdb(showDetail.imdbID).then(response => {
-        console.log(response)
         this.setState({show: response});
+        // TODO SAVE SHOW AT OUR DATA BASE
       })
     } else {
       this.setState({show: showDetail});
@@ -54,12 +56,13 @@ export default class ShowScreen extends React.Component {
   render() {
     const { navigation } = this.props;
     const show = this.state.show;
-    const user = this.state.user;
+    const user = this.state.userId;
+    console.log(user)
     return (
       <ScrollView style={styles.mainContainer}>
         <Image style={styles.cover} 
          source={(show.Poster == "" )
-        ? {uri:'https://www.jainsusa.com/images/store/landscape/not-available.jpg'}              // Use object with 'uri'
+        ? {uri:'https://www.jainsusa.com/images/store/landscape/not-available.jpg'}
         : {uri: show.Poster}   
          }/>
         <Card style={styles.descContainer}>
@@ -80,7 +83,7 @@ export default class ShowScreen extends React.Component {
           <Button
             title={"Deja tu reseña"}
             onPress={() => {
-              navigation.navigate("Review", {show, user});
+              navigation.navigate("Review", {showID: show.imdbID, userID: user});
             }}
           />
         </View>

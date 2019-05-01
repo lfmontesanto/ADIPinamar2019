@@ -45,7 +45,7 @@ export default class MoviesScreen extends React.Component {
   }
   render() {
     const navigation = this.props.navigation;
-    const user = navigation.getParam("user")
+    const user = navigation.getParam("userId")
     return (
       <View style={styles.container}>
         <SearchHeader style={styles.searchContainer} action={this.onSearch} />

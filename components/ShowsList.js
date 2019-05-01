@@ -5,7 +5,6 @@ import DetailCard from "./DetailCard";
 export default class ShowsList extends React.Component {
   render() {
     const navigation = this.props.navigation;
-    const user = navigation.getParam("user")
     return (
       <ScrollView style={styles.mainContainer}>
         {this.props.shows.map((show, index) => (

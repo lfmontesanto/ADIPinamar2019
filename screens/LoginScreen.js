@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import {
   ScrollView,
   Text,
-  StyleSheet
+  StyleSheet,
+  View
 } from "react-native";
 import ApiController from "../controller/ApiController";
 import PasswordInputText from 'react-native-hide-show-password-input';
 import { TextInput, Button, HelperText } from 'react-native-paper';
-
+import LottieView from 'lottie-react-native';
 
 class Inputs extends Component {
   static navigationOptions = {
@@ -55,11 +56,12 @@ class Inputs extends Component {
                   firstName: data.name,
                   lastName: data.lastname
                 })
+              }).then(()=>{
+                this.setState({password: ""})
+                this.setState({email: ""})
               }) 
             } 
-        })
-          this.setState({password: ""})
-          this.setState({email: ""})
+          })
         } else {
           alert("Usuario/Contraseña incorrectos " + "email: " + email);
           this.setState({loading: false});
@@ -78,25 +80,38 @@ class Inputs extends Component {
     const { navigate } = this.props.navigation;
     return (
       <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
-        <TextInput
-          style={styles.input}
-          mode = {'flat'}
-          autoCorrect={false} 
-          autoCapitalize="none"
-          label="Email"
-          value={this.state.email}
-          onChangeText={this.handleEmail}
-        />
-        <HelperText
-          type="error"
-          visible= {this.state.emailFormatError}
-        >
-         Email ingresado invalido!
-        </HelperText>
-        <PasswordInputText
-          value={this.state.password}
-          onChangeText={this.handlePassword}
-        />
+      <View style={styles.container}> 
+          {
+            this.state.loading == true
+            ?  <View>
+                <LottieView 
+                style ={styles.animation}  
+                source={require('../assets/animations/material-loading.json')} 
+                autoPlay loop />
+              </View>
+            : <View>
+                <TextInput
+                  style={styles.input}
+                  mode = {'flat'}
+                  autoCorrect={false} 
+                  autoCapitalize="none"
+                  label="Email"
+                  value={this.state.email}
+                  onChangeText={this.handleEmail}
+                />
+                <HelperText
+                  type="error"
+                  visible= {this.state.emailFormatError}
+                >
+                Email ingresado invalido!
+                </HelperText>
+                <PasswordInputText
+                  value={this.state.password}
+                  onChangeText={this.handlePassword}
+                />
+              </View>
+          } 
+        </View>
         <Button
           style={styles.submitButton}
           icon = "done"
@@ -131,7 +146,7 @@ export default Inputs;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 80,    
+    marginTop: 60,    
   },
   getStartedText :{
     marginTop: 15,
@@ -161,7 +176,15 @@ const styles = StyleSheet.create({
   submitButtonText: {
     color: "white"
   },
-
+  animation:{
+    alignItems: 'center',
+    flex : 1,
+    height :300,
+    width:30,
+    marginBottom:20,
+    marginLeft: 30,
+    marginRight: 30,
+  },
   registerButton: {
     marginTop: 40,
     marginLeft: 60,
