@@ -6,6 +6,8 @@ import {
   TextInput,
   StyleSheet
 } from "react-native";
+import { Button } from 'react-native-paper';
+
 
 import ApiController from "../controller/ApiController";
 
@@ -85,7 +87,7 @@ export default class ChangePasswordScreen extends React.Component {
           onChangeText={this.handleNewPassword2}
         />
     
-        <TouchableOpacity
+        <Button
           style={styles.submitButton}
           onPress={() => {
             if ((!(!this.state.email || /^\s*$/.test(this.state.email))) && !((!this.state.password || /^\s*$/.test(this.state.password)))) {
@@ -100,7 +102,7 @@ export default class ChangePasswordScreen extends React.Component {
           }}
         >
           <Text style={styles.submitButtonText}> Submit </Text>
-        </TouchableOpacity>
+        </Button>
       </ScrollView>
     );
   }

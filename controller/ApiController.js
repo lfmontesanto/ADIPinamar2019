@@ -21,11 +21,9 @@ const UPDATE_USER_ENDPOINT = "https://pelispedio.herokuapp.com/api/profile/"
 const LOG_IN_ENDPOINT = "https://pelispedio.herokuapp.com/api/login"
 const GET_USER_ENDPOINT = "https://pelispedio.herokuapp.com/api/profile"
 const REGISTER_USER_ENDPOINT = "https://pelispedio.herokuapp.com/api/register"
-const GET_USER_ACTIVITY_ENDPOINT = "http://localhost:8080/api/profile/activity"
+const GET_USER_ACTIVITY_ENDPOINT = "https://pelispedio.herokuapp.com/api/profile/activity"
 
 class ApiController extends React.Component {
-
-    
     async getMoviesHeroku()
     {
         try {
@@ -86,19 +84,18 @@ class ApiController extends React.Component {
             console.log(err)
         }
     }
-
     async getShowOmdb(imdbID) {                    
         const finalUrl = GET_SHOWS_ENDPOINT_OMDB.replace("[imdbID]", imdbID);
         console.log(finalUrl)
         try {
             let response = await fetch (finalUrl);
-            const data = JSON.parse(response._bodyInit)
-            return data
+            let data2 = await JSON.parse(response._bodyInit)
+            console.log(data2)
+            return data2
         } catch (err){
             console.log(err)
         }
     }
-    
     async getComments (showID, type) {
         let finalUrl=""
         switch (type) {
@@ -204,7 +201,9 @@ class ApiController extends React.Component {
         }
         try {
             let response = await fetch (finalUrl,config);
+            console.log(response)
             let data = await response.json()
+            console.log(data)
             return data
         } catch (err) {
             console.log(err)

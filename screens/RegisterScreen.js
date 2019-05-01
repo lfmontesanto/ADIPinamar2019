@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {
+  View,
   ScrollView,
   Text,
   StyleSheet
@@ -65,7 +66,7 @@ export default class RegisterScreen extends Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
+      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
         <TextInput
           style={styles.input}
           mode = {'outlined'}
@@ -167,8 +168,9 @@ const styles = StyleSheet.create({
     marginLeft : 60,
     marginRight : 60
   },
-  submitButtonText: {
-    color: "white"
+  buttonsContainer: {
+    flexDirection: 'column',
+    marginTop: 30
   },
   loginButton: {
     backgroundColor: "#7a42f4",
@@ -179,7 +181,9 @@ const styles = StyleSheet.create({
     marginLeft : 60,
     marginRight : 60
   },
-  loginButtonText: {
-    color: "white"
+  mainButtonText: {
+    color: "white",
+    textAlign: 'center',
+    fontWeight: 'bold'
   }
 });

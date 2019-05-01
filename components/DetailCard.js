@@ -2,23 +2,27 @@ import React from "react";
 import { View, TouchableOpacity, Text, Image, StyleSheet } from "react-native";
 import { Avatar, Card, Title, Paragraph,Button,Divider } from 'react-native-paper';
 
-
-import Reviews from "../constants/Reviews";
-import { ScrollView } from "react-native-gesture-handler";
-
 export default class DetailCard extends React.Component {
   render() {
     const show = this.props.show;
     const navigation = this.props.navigation;
+    const user = navigation.getParam("user")
     return (
       <Card style={styles.cardContainer}
         elevation = {2} 
         onPress={() => {
-            navigation.navigate("Show", { show, Reviews });
+            navigation.navigate("Show", { show });
           }}
         >
         <Card.Content style={styles.mainContainer} >
-          <Image style={styles.cover} source={{ uri: show.Poster}}/>
+        <Image 
+          style={styles.cover} 
+          resizeMode={'contain'}
+          source={(show.Poster.length === 0 || !show.Poster.trim())
+            ? {uri:'https://www.jainsusa.com/images/store/landscape/not-available.jpg'}             // Use object with 'uri'
+            : {uri: show.Poster}         
+          }
+         />
           <View style={styles.descContainer}>
               <Title style={styles.title}>{show.Title}</Title>
                 {show.Score != undefined &&
@@ -56,7 +60,7 @@ const styles = StyleSheet.create({
   },
   cover: {
     flex:1,
-    marginRight: 10
+    marginRight: 10,
   },
   descContainer: {
     flex: 1.3,

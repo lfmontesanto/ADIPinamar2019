@@ -32,6 +32,10 @@ class Inputs extends Component {
     this.setState({password: ""})
     this.setState({email: ""})
   }
+  async getUserBody (response) {
+    let body = await response.json()
+    return body
+  }
   login = (email,password) => {
     this.setState({loading: true})
     const { navigate } = this.props.navigation;
@@ -41,11 +45,19 @@ class Inputs extends Component {
         if (response.ok == true) {
           api.getUser(this.state.email).then((response) =>{
             if (response.ok == true) {
-            }
-          }).then(()=>{ this.setState({loading: false})}) 
-          navigate("HomeTabs", {
-            userEmail: email
-          });
+              let data = this.getUserBody(response).then((data) => {
+                console.log (data)
+                console.log(data.userid)
+                this.setState({loading: false}) 
+                navigate("HomeTabs", {
+                  userEmail: email,
+                  userId: data.userid,
+                  firstName: data.name,
+                  lastName: data.lastname
+                })
+              }) 
+            } 
+        })
           this.setState({password: ""})
           this.setState({email: ""})
         } else {

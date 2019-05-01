@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, ScrollView, Text, TouchableOpacity} from "react-native";
 
 import ApiController from "../controller/ApiController"; 
-import { TextInput } from "react-native-paper";
+import { TextInput, Button } from "react-native-paper";
 
 export default class UserScreen extends React.Component {
 
@@ -13,7 +13,7 @@ export default class UserScreen extends React.Component {
   };
   componentWillMount() {
     const {state} = this.props.navigation;
-    this.setState( {email : state.params.userEmail})
+    this.setState( {email : state.params.userEmail, firstName:state.params.firstName , lastName:state.params.lastName})
     const api = ApiController;
   }
   render() {
@@ -22,7 +22,7 @@ export default class UserScreen extends React.Component {
         <Text
           style={styles.label}
           underlineColorAndroid="transparent"
-        >First Name</Text>
+        >Nombre</Text>
          <TextInput
           style={styles.data}
           underlineColorAndroid="transparent"
@@ -31,7 +31,7 @@ export default class UserScreen extends React.Component {
         <Text
           style={styles.label}
           underlineColorAndroid="transparent"
-        >Last Name</Text>
+        >Apellido</Text>
          <TextInput
           style={styles.data}
           disabled = {true}
@@ -46,22 +46,24 @@ export default class UserScreen extends React.Component {
           disabled = {true}
           underlineColorAndroid="transparent"
         >{this.state.email}</TextInput>
-        <TouchableOpacity
+        <Button
+          mode = {'contained'}
           style={styles.submitButton}
           onPress={() => {
             navigate("ChangePassword");
           }}
         >
           <Text style={styles.submitButtonText}> Cambiar Contraseña </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+        </Button>
+        <Button
+          mode = {'contained'}
           style={styles.submitButton}
           onPress={() => {
             navigate("Login");
           }}
         >
           <Text style={styles.submitButtonText}> Cerrar Sesion </Text>
-        </TouchableOpacity>
+        </Button>
       </ScrollView>
     );
   }
@@ -69,7 +71,8 @@ export default class UserScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 23
+    marginTop: 15,
+    marginBottom: 15
   },
   label: {
     margin: 15,
@@ -79,9 +82,7 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     backgroundColor: "#7a42f4",
-    padding: 10,
     margin: 15,
-    height: 40
   },
   submitButtonText: {
     color: "white"
@@ -89,9 +90,7 @@ const styles = StyleSheet.create({
 
   loginButton: {
     backgroundColor: "#7a42f4",
-    padding: 10,
     margin: 15,
-    height: 40
   },
   loginButtonText: {
     color: "white"

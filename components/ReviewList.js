@@ -6,18 +6,17 @@ import Review from "../components/Review";
 export default class ReviewList extends React.Component {
   render() {
     const { trigger } = this.props;
-    const { reviews } = this.props.reviews
     const showProgress = <View><ActivityIndicator size="large" color="#0000ff" /></View>;
-    let message;
     if (this.props.loading) {
         return showProgress
     } else {
         return (
-        <View> 
+          
+        <View style={styles.container}> 
           {
-            Array.isArray(reviews) && reviews.length  
+            Array.isArray(this.props.reviews) && this.props.reviews.length
             ? <FlatList
-              data={reviews}
+              data={this.props.reviews}
               renderItem={({item}) =>  <Review review={item} trigger={trigger} />}
               keyExtractor={(item, index) => index.toString()}
               /> 
@@ -30,7 +29,8 @@ export default class ReviewList extends React.Component {
 const styles = StyleSheet.create({
   container: {
    flex: 1,
-   paddingTop: 22
+   paddingTop: 5,
+   marginBottom:10
   },
   item: {
     padding: 10,

@@ -5,13 +5,13 @@ import {
   ScrollView,
   Text,
   Image,
-  Button
+  Button,
 } from "react-native";
 
 import { Avatar, Card, Title, Paragraph } from 'react-native-paper';
 import ApiController from "../controller/ApiController";
-
 import ReviewList from "../components/ReviewList";
+
 
 export default class ShowScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -23,42 +23,45 @@ export default class ShowScreen extends React.Component {
        }
     }
  }
+
   constructor(props) {
     super(props);
     this.state = {
       show: {},
       reviews:{},
       loading : false,
-      param : "1234"
+      param : "1234",
+      user: {}
     };
   }
   componentWillMount() {
     const api = ApiController;
     const showDetail = this.props.navigation.getParam("show")
+    const user = this.props.navigation.getParam("user")
     if (typeof showDetail._id === 'undefined'){
       api.getShowOmdb(showDetail.imdbID).then(response => {
+        console.log(response)
         this.setState({show: response});
       })
     } else {
       this.setState({show: showDetail});
-      console.log(showDetail)
     }
     api.getComments(showDetail.imdbID,showDetail.Type).then((response) =>{
-      if (response ){
         this.setState({reviews : response, loading : true})
-      } 
     })
   }
-  async setReviews(reviews) {
-    await this.setReviews({reviews : reviews})
-  }
+  
   render() {
     const { navigation } = this.props;
-    const reviews = this.state.reviews
     const show = this.state.show;
+    const user = this.state.user;
     return (
       <ScrollView style={styles.mainContainer}>
-        <Image source={{ uri: show.Poster }} style={styles.cover} />
+        <Image style={styles.cover} 
+         source={(show.Poster == "" )
+        ? {uri:'https://www.jainsusa.com/images/store/landscape/not-available.jpg'}              // Use object with 'uri'
+        : {uri: show.Poster}   
+         }/>
         <Card style={styles.descContainer}>
           <Text style={styles.title}>{show.Title}</Text>
           <Text style={styles.textNormal}>Valoración: {show.Score}</Text>
@@ -77,11 +80,11 @@ export default class ShowScreen extends React.Component {
           <Button
             title={"Deja tu reseña"}
             onPress={() => {
-              navigation.navigate("Review", { show });
+              navigation.navigate("Review", {show, user});
             }}
           />
         </View>
-        <ReviewList reviews={reviews} />
+        <ReviewList reviews={this.state.reviews}/>
       </ScrollView>
     );
   }

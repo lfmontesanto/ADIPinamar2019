@@ -10,22 +10,29 @@ import {
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
 import ApiController from "../controller/ApiController";
 
-
 export default class ReviewScreen extends React.Component {
   state = {
     score: "",
     comment: "",
+    showID: "5cc208cd1c9d440000fb05a4",
+    userID: "5cc3bd7a32c9410017a0b1b3",
+    type: "movie"
   };
-  handleScore = text => {
+  handleScore = (text) => {
     this.setState({ score: text });
-  };
-  handleComment = text => {
+  }
+  handleComment = (text) => {
     this.setState({ comment: text });
-  };
-  saveReview(score, comment, showID, userID) {
-    if ((!(!this.state.score || /^\s*$/.test(this.state.score))) && (this.state.score>0 && this.state.score<=10)) {
+  }
+  saveReview = (score, comment, showID, userID, type) => {
+    if ((!(!score || /^\s*$/.test(score))) && (score>0 && score<=10)) {
       const api = ApiController;
-      api.commentShow(showID, comment, score, userID).then((response) =>{
+      console.log(
+        "comment: " + comment,
+        "score: " + score,
+        "type: " + type
+      )
+      api.commentShow(showID, comment, score, userID, type).then((response) =>{
         if (response.ok == true) {
           alert("Review saved :) " );
         } else {
@@ -34,8 +41,14 @@ export default class ReviewScreen extends React.Component {
       })
     }
   }
-  render() {
+  componentWillMount() {
     const navigation = this.props.navigation;
+    const user = navigation.getParam("user")
+    const show = navigation.getParam("show")
+    this.setState({userID: user._id})
+    this.setState({showID: show.imdbID})
+  }
+  render() {
     return (
       <ScrollView
         contentContainerStyle={styles.container}
@@ -71,7 +84,7 @@ export default class ReviewScreen extends React.Component {
             style={styles.buttons}
             title={"Enviar"}
             onPress={() => {
-              this.saveReview(this.state.score,this.state.comment,"22","22");
+              this.saveReview(this.state.score, this.state.comment, this.state.showID, this.state.userID, this.state.type);
             }}
           />
         </View>
