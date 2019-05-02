@@ -124,11 +124,9 @@ class ApiController extends React.Component {
     }
     async getShowOmdb(imdbID) {                    
         const finalUrl = GET_SHOWS_ENDPOINT_OMDB.replace("[imdbID]", imdbID);
-        console.log(finalUrl)
         try {
             let response = await fetch (finalUrl);
             let data2 = await JSON.parse(response._bodyInit)
-            console.log(data2)
             return data2
         } catch (err){
             console.log(err)
@@ -148,9 +146,7 @@ class ApiController extends React.Component {
           }                 
         try {
             let response = await fetch (finalUrl);
-            console.log(response)
             const data = JSON.parse(response._bodyInit)
-            console.log(finalUrl)
             return data
         } catch (err){
             console.log(err)
@@ -167,7 +163,6 @@ class ApiController extends React.Component {
         }
         try {
             let response = await fetch (finalUrl,config);
-            console.log(response)
             return response
         } catch (err) {
             console.log(err)
@@ -209,13 +204,6 @@ class ApiController extends React.Component {
             score: score , 
             comment: comment
         }
-            console.log(
-                "comment: " + comment,
-                "score: " + score,
-                "type: " + type,
-                "showId" + showID,
-                "user" + userID
-              )
         let finalUrl = ""
         switch (type) {
             case OMDB_TYPE_MOVIE:
@@ -235,7 +223,6 @@ class ApiController extends React.Component {
         }
         try {
             let response = await fetch (finalUrl,config);
-            console.log(response)
             return response
         } catch (err) {
             console.log(err)
@@ -250,9 +237,7 @@ class ApiController extends React.Component {
         }
         try {
             let response = await fetch (finalUrl,config);
-            console.log(response)
             let data = await response.json()
-            console.log(data)
             return data
         } catch (err) {
             console.log(err)

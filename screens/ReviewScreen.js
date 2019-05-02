@@ -28,13 +28,6 @@ export default class ReviewScreen extends React.Component {
   saveReview = (score, comment, showId, userId, type) => {
     if ((!(!score || /^\s*$/.test(score))) && (score>0 && score<=10)) {
       const api = ApiController;
-      console.log(
-        "comment: " + comment,
-        "score: " + score,
-        "type: " + type,
-        "showId" + showId,
-        "user" + userId
-      )
       api.createShow(this.state.show,this.state.show.Type)
       api.commentShow(showId, comment, score, userId, type).then((response) =>{
         if (response.ok == true) {
@@ -53,10 +46,9 @@ export default class ReviewScreen extends React.Component {
     this.setState({type:type })
     this.setState({userId: user})
     this.setState({show: show})
-    console.log(show)
-    console.log(user)
   }
   render() {
+    const navigation = this.props.navigation;
     return (
       <ScrollView
         contentContainerStyle={styles.container}

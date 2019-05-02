@@ -23,7 +23,6 @@ export default class ShowScreen extends React.Component {
        }
     }
  }
-
   constructor(props) {
     super(props);
     this.state = {
@@ -57,7 +56,6 @@ export default class ShowScreen extends React.Component {
     }
     this.refreshComments(showDetail.imdbID,showDetail.Type)
   }
-  
   render() {
     const { navigation } = this.props;
     const show = this.state.show;

@@ -158,7 +158,8 @@ export default class RegisterScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop : 40
+    marginTop : 40,
+    marginBottom : 30
   },
   input: {
     marginBottom: 45,
@@ -181,6 +182,21 @@ const styles = StyleSheet.create({
     marginLeft : 60,
     marginRight : 60
   },
+  submitButton: {
+    marginTop: 15,
+    marginBottom:10,
+    marginLeft: 60,
+    marginRight: 60,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    backgroundColor: "#7a42f4",
+  },
+  getStartedText :{
+    marginTop: 10,
+    marginLeft: 60,
+    marginRight: 60,
+    alignItems: 'center',
+  },
   animation:{
     flex : 1,
     justifyContent: 'center',
@@ -198,7 +214,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     marginBottom: 30,
-    marginTop : 25,
+    marginTop : 15,
     marginLeft : 60,
     marginRight : 60
   },

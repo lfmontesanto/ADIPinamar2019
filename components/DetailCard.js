@@ -7,8 +7,6 @@ export default class DetailCard extends React.Component {
     const show = this.props.show;
     const navigation = this.props.navigation;
     const user = navigation.getParam("userId")
-    console.log(user)
-    console.log(show)
     return (
       <Card style={styles.cardContainer}
         elevation = {2} 

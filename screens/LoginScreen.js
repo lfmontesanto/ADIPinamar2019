@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import {
-  ScrollView,
-  Text,
-  StyleSheet,
-  View
-} from "react-native";
+import { ScrollView, Text, StyleSheet,View, Image } from "react-native";
 import ApiController from "../controller/ApiController";
 import PasswordInputText from 'react-native-hide-show-password-input';
 import { TextInput, Button, HelperText } from 'react-native-paper';
@@ -47,8 +42,6 @@ class Inputs extends Component {
           api.getUser(this.state.email).then((response) =>{
             if (response.ok == true) {
               let data = this.getUserBody(response).then((data) => {
-                console.log (data)
-                console.log(data.userid)
                 this.setState({loading: false}) 
                 navigate("HomeTabs", {
                   userEmail: email,
@@ -77,7 +70,6 @@ class Inputs extends Component {
     return re.test(String(email).toLowerCase());
   }
   render() {
-    const { navigate } = this.props.navigation;
     return (
       <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
       <View style={styles.container}> 
@@ -90,6 +82,10 @@ class Inputs extends Component {
                 autoPlay loop />
               </View>
             : <View>
+                <Image style={styles.logo} 
+                resizeMode='contain'
+                source={require('../assets/images/logo.png')} 
+                />
                 <TextInput
                   style={styles.input}
                   mode = {'flat'}
@@ -146,7 +142,14 @@ export default Inputs;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 60,    
+    marginBottom: 15,
+    marginTop:40 
+  },
+  logo : {
+    margin:25,
+    flex: 0.3,
+    width: null,
+    height: 100
   },
   getStartedText :{
     marginTop: 15,
@@ -155,14 +158,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    marginTop: 15,
+    flex:1,
     marginBottom:15,
     marginLeft: 20,
     marginRight: 20,
     backgroundColor :"#FFFFFF"
-  },
-  passInput: {
-    margin: 15,
   },
   submitButton: {
     marginTop: 15,
@@ -195,6 +195,5 @@ const styles = StyleSheet.create({
   },
   registerButtonText: {
     color: "white",
-    
   }
 });
