@@ -7,44 +7,69 @@ import {
   Image,
   Button
 } from "react-native";
-import ApiController from "../controller/ApiController";
 
+import { Avatar, Card} from 'react-native-paper';
+import ApiController from "../controller/ApiController";
 import ReviewList from "../components/ReviewList";
 
+
 export default class ShowScreen extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+       title: 'PelisPedio',
+       headerTintColor: 'white',
+       headerStyle: {
+          backgroundColor: '#633689'
+       }
+    }
+ }
+
   constructor(props) {
     super(props);
     this.state = {
-      show: {}
+      show: {},
+      reviews:{},
+      loading : false,
+      param : "1234",
+      userId: "",
     };
+  }
+  refreshComments(imdb,type){
+    const api = ApiController;
+    this.setState({loading:true})
+    api.getComments(imdb,type)
+    .then((response) =>{
+      this.setState({reviews : response, loading : true})})
+      .then(()=>{this.setState({loading:false})})
   }
   componentWillMount() {
     const api = ApiController;
-    const showID = this.props.navigation.getParam("show").imdbID;
-    api.getShowOmdb(showID).then(response => {
-      console.log(response)
-      this.state.show = response;
-    });
-    const { navigation } = this.props;
-    const localShow = navigation.getParam("show");
-    console.log("LOCALSHOW")
-    console.log(localShow)
-    if (localShow != null) {
-      console.log('entro')
-      this.state.show = localShow;
+    const showDetail = this.props.navigation.getParam("show")
+    const user = this.props.navigation.getParam("userId")
+    this.setState({userId: user})
+    this.setState({show: showDetail})
+    if (typeof showDetail._id === 'undefined'){
+      api.getShowOmdb(showDetail.imdbID).then(response => {
+        this.setState({show: response});
+      })
+    } else {
+      this.setState({show: showDetail});
     }
-    console.log("STATESHOW")
-    console.log(this.state.show)
+    this.refreshComments(showDetail.imdbID,showDetail.Type)
   }
+  
   render() {
     const { navigation } = this.props;
-    const reviews = navigation.getParam("Reviews");
     const show = this.state.show;
+    const user = this.state.userId;
     return (
       <ScrollView style={styles.mainContainer}>
-      {console.log("show en Return" + show)}
-        <Image source={{ uri: show.Poster }} style={styles.cover} />
-        <View style={styles.descContainer}>
+        <Image style={styles.cover} 
+         source={(show.Poster == "" )
+        ? {uri:'https://www.jainsusa.com/images/store/landscape/not-available.jpg'}
+        : {uri: show.Poster}   
+         }/>
+        <Card style={styles.descContainer}>
           <Text style={styles.title}>{show.Title}</Text>
           <Text style={styles.textNormal}>Valoración: {show.Score}</Text>
           <Text style={styles.textNormal}>Duración: {show.Runtime}</Text>
@@ -56,17 +81,23 @@ export default class ShowScreen extends React.Component {
           </Text>
           <Text style={styles.summary}>Sinopsis</Text>
           <Text style={styles.description}>{show.Plot}</Text>
-        </View>
+        </Card>
         <View style={styles.reviewsHeader}>
           <Text style={styles.reviews}>Reseñas</Text>
           <Button
+            title={"Actualizar"}
+            onPress={() => {
+                this.refreshComments(this.state.show.imdbID,this.state.show.Type)
+            }}
+            />
+          <Button
             title={"Deja tu reseña"}
             onPress={() => {
-              navigation.navigate("Review", { show });
+              navigation.navigate("Review", {show: show, userID: user, type: show.Type});
             }}
           />
         </View>
-        <ReviewList reviews={reviews} />
+        <ReviewList reviews={this.state.reviews}/>
       </ScrollView>
     );
   }
@@ -81,7 +112,6 @@ const styles = StyleSheet.create({
   },
   descContainer: {
     flexDirection: "column",
-    padding: 10,
     borderBottomWidth: 2,
     borderBottomColor: 633689
   },

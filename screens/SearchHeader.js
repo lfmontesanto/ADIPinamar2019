@@ -10,8 +10,11 @@ class SearchHeader extends Component {
         return (
             <Searchbar
                 placeholder = "Search"
-                onChangeText = { query => { this.setState({ firstQuery: query }); } }
+                onChangeText = { 
+                query => { this.setState({ firstQuery: query }); 
+                query == '' ?  this.props.action(query) : null }}
                 onSubmitEditing = { () => this.props.action(firstQuery) } 
+                onIconPress = {() => this.props.action(firstQuery)}
                 value = { firstQuery }
             />                
         )

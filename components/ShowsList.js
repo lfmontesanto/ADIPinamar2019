@@ -8,7 +8,7 @@ export default class ShowsList extends React.Component {
     return (
       <ScrollView style={styles.mainContainer}>
         {this.props.shows.map((show, index) => (
-          <DetailCard show={show} key={index} navigation={navigation} />
+          <DetailCard show={show} key={index} navigation={navigation} user={this.props.user}/>
         ))}
       </ScrollView>
     );
@@ -17,6 +17,7 @@ export default class ShowsList extends React.Component {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    marginTop: 15
+    marginTop: 15,
+    marginBottom:30,
   }
 });

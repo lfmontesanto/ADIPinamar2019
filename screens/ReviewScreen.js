@@ -8,23 +8,55 @@ import {
   StyleSheet
 } from "react-native";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
+import ApiController from "../controller/ApiController";
 
 export default class ReviewScreen extends React.Component {
   state = {
     score: "",
-    comment: ""
+    comment: "",
+    show:{},
+    userId: "",
+    type: "",
+    buttonDisabled:false
   };
-  handleScore(text) {
+  handleScore = (text) => {
     this.setState({ score: text });
   }
-  handleComment(text) {
+  handleComment = (text) => {
     this.setState({ comment: text });
   }
-  saveReview() {
-    //TODO
+  saveReview = (score, comment, showId, userId, type) => {
+    if ((!(!score || /^\s*$/.test(score))) && (score>0 && score<=10)) {
+      const api = ApiController;
+      console.log(
+        "comment: " + comment,
+        "score: " + score,
+        "type: " + type,
+        "showId" + showId,
+        "user" + userId
+      )
+      api.createShow(this.state.show,this.state.show.Type)
+      api.commentShow(showId, comment, score, userId, type).then((response) =>{
+        if (response.ok == true) {
+          alert("Review saved :) " );
+        } else {
+          alert("Error saving review");
+        }
+      }).then(()=>{this.setState({buttonDisabled : false})})
+    }
+  }
+  componentWillMount() {
+    const navigation = this.props.navigation;
+    const user = navigation.getParam("userID")
+    const show = navigation.getParam("show")
+    const type = navigation.getParam("type")
+    this.setState({type:type })
+    this.setState({userId: user})
+    this.setState({show: show})
+    console.log(show)
+    console.log(user)
   }
   render() {
-    const navigation = this.props.navigation;
     return (
       <ScrollView
         contentContainerStyle={styles.container}
@@ -59,8 +91,10 @@ export default class ReviewScreen extends React.Component {
           <Button
             style={styles.buttons}
             title={"Enviar"}
+            disabled={this.state.buttonDisabled}
             onPress={() => {
-              saveReview();
+              this.setState({buttonDisabled : true})
+              this.saveReview(this.state.score, this.state.comment, this.state.show.imdbID, this.state.userId, this.state.type);
             }}
           />
         </View>
@@ -68,7 +102,6 @@ export default class ReviewScreen extends React.Component {
     );
   }
 }
-
 const styles = StyleSheet.create({
   title: {
     fontSize: 24,

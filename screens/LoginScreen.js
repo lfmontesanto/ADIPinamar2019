@@ -2,80 +2,142 @@ import React, { Component } from "react";
 import {
   ScrollView,
   Text,
-  TouchableOpacity,
-  TextInput,
-  StyleSheet
+  StyleSheet,
+  View
 } from "react-native";
+import ApiController from "../controller/ApiController";
+import PasswordInputText from 'react-native-hide-show-password-input';
+import { TextInput, Button, HelperText } from 'react-native-paper';
+import LottieView from 'lottie-react-native';
 
 class Inputs extends Component {
+  static navigationOptions = {
+    header: null
+  };
   state = {
     email: "",
-    password: ""
+    password: "",
+    loading : false,
+    emailFormatError :false
   };
   handleEmail = text => {
+    this.setState({emailFormatError : false})
     this.setState({ email: text });
   };
   handlePassword = text => {
     this.setState({ password: text });
   };
-  login = email => {
-    //alert('Login successfull '+'email: ' + email );
+  register () {
+    const { navigate } = this.props.navigation;
+    navigate("Register");
+    this.setState({password: ""})
+    this.setState({email: ""})
+  }
+  async getUserBody (response) {
+    let body = await response.json()
+    return body
+  }
+  login = (email,password) => {
+    this.setState({loading: true})
+    const { navigate } = this.props.navigation;
+    const api = ApiController;
+    if (this.validateEmail(email)) {
+      api.login(email,password).then((response) =>{
+        if (response.ok == true) {
+          api.getUser(this.state.email).then((response) =>{
+            if (response.ok == true) {
+              let data = this.getUserBody(response).then((data) => {
+                console.log (data)
+                console.log(data.userid)
+                this.setState({loading: false}) 
+                navigate("HomeTabs", {
+                  userEmail: email,
+                  userId: data.userid,
+                  firstName: data.name,
+                  lastName: data.lastname
+                })
+              }).then(()=>{
+                this.setState({password: ""})
+                this.setState({email: ""})
+              }) 
+            } 
+          })
+        } else {
+          alert("Usuario/Contraseña incorrectos " + "email: " + email);
+          this.setState({loading: false});
+        }
+      })
+    } else {
+      this.setState({emailFormatError : true})
+      this.setState({loading: false});
+    }
   };
-
-  loginError = email => {
-    alert("User/Pass do not match, " + "email: " + email);
-  };
-
+  validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
   render() {
     const { navigate } = this.props.navigation;
     return (
       <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
-        <TextInput
-          style={styles.input}
-          underlineColorAndroid="transparent"
-          placeholder="Email"
-          placeholderTextColor="#9a73ef"
-          autoCapitalize="none"
-          onChangeText={this.handleEmail}
-        />
-        <TextInput
-          style={styles.input}
-          underlineColorAndroid="transparent"
-          placeholder="Password"
-          placeholderTextColor="#9a73ef"
-          autoCapitalize="none"
-          onChangeText={this.handlePassword}
-        />
-        <TouchableOpacity
+      <View style={styles.container}> 
+          {
+            this.state.loading == true
+            ?  <View>
+                <LottieView 
+                style ={styles.animation}  
+                source={require('../assets/animations/material-loading.json')} 
+                autoPlay loop />
+              </View>
+            : <View>
+                <TextInput
+                  style={styles.input}
+                  mode = {'flat'}
+                  autoCorrect={false} 
+                  autoCapitalize="none"
+                  label="Email"
+                  value={this.state.email}
+                  onChangeText={this.handleEmail}
+                />
+                <HelperText
+                  type="error"
+                  visible= {this.state.emailFormatError}
+                >
+                Email ingresado invalido!
+                </HelperText>
+                <PasswordInputText
+                  value={this.state.password}
+                  onChangeText={this.handlePassword}
+                />
+              </View>
+          } 
+        </View>
+        <Button
           style={styles.submitButton}
+          icon = "done"
+          compact = {true}
+          loading = {this.state.loading}
+          mode = {'contained'}
           onPress={() => {
-            // Validate if user exist
-            //if (responde.data.code==200)
-            if (true) {
-              //success
-              this.login(this.state.email);
-              navigate("HomeTabs");
-            } else {
-              this.loginError(this.state.email);
-            }
+              this.login(this.state.email, this.state.password);
           }}
         >
-          <Text style={styles.submitButtonText}> Submit </Text>
-        </TouchableOpacity>
-
+          <Text style={styles.submitButtonText}> INGRESAR </Text>
+        </Button>
         <Text style={styles.getStartedText}>
           Not registered yet? Register Now
         </Text>
-
-
-        <TouchableOpacity
+        <Button
+          icon = "add"
+          mode = {'contained'}
+          compact = {true}
           style={styles.registerButton}
           onPress={() => {
-            navigate("Register");
+            this.register()
           }}
         >
-          <Text style={styles.registerButtonText}> Register </Text>
-        </TouchableOpacity>
+          <Text style={styles.registerButtonText}> REGISTRARSE </Text>
+        </Button>
       </ScrollView>
     );
   }
@@ -84,31 +146,55 @@ export default Inputs;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 23
+    marginTop: 60,    
+  },
+  getStartedText :{
+    marginTop: 15,
+    marginLeft: 60,
+    marginRight: 60,
+    alignItems: 'center',
   },
   input: {
+    marginTop: 15,
+    marginBottom:15,
+    marginLeft: 20,
+    marginRight: 20,
+    backgroundColor :"#FFFFFF"
+  },
+  passInput: {
     margin: 15,
-    height: 40,
-    borderColor: "#7a42f4",
-    borderWidth: 1
   },
   submitButton: {
+    marginTop: 15,
+    marginBottom:15,
+    marginLeft: 60,
+    marginRight: 60,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
     backgroundColor: "#7a42f4",
-    padding: 10,
-    margin: 15,
-    height: 40
   },
   submitButtonText: {
     color: "white"
   },
-
+  animation:{
+    alignItems: 'center',
+    flex : 1,
+    height :300,
+    width:30,
+    marginBottom:20,
+    marginLeft: 30,
+    marginRight: 30,
+  },
   registerButton: {
+    marginTop: 40,
+    marginLeft: 60,
+    marginRight: 60,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
     backgroundColor: "#7a42f4",
-    padding: 10,
-    margin: 15,
-    height: 40
   },
   registerButtonText: {
-    color: "white"
+    color: "white",
+    
   }
 });
