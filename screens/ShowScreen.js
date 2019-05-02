@@ -5,10 +5,10 @@ import {
   ScrollView,
   Text,
   Image,
-  Button,
+  Button
 } from "react-native";
 
-import { Avatar, Card, Title, Paragraph } from 'react-native-paper';
+import { Avatar, Card} from 'react-native-paper';
 import ApiController from "../controller/ApiController";
 import ReviewList from "../components/ReviewList";
 
@@ -31,8 +31,16 @@ export default class ShowScreen extends React.Component {
       reviews:{},
       loading : false,
       param : "1234",
-      userId: ""
+      userId: "",
     };
+  }
+  refreshComments(imdb,type){
+    const api = ApiController;
+    this.setState({loading:true})
+    api.getComments(imdb,type)
+    .then((response) =>{
+      this.setState({reviews : response, loading : true})})
+      .then(()=>{this.setState({loading:false})})
   }
   componentWillMount() {
     const api = ApiController;
@@ -43,21 +51,17 @@ export default class ShowScreen extends React.Component {
     if (typeof showDetail._id === 'undefined'){
       api.getShowOmdb(showDetail.imdbID).then(response => {
         this.setState({show: response});
-        // TODO SAVE SHOW AT OUR DATA BASE
       })
     } else {
       this.setState({show: showDetail});
     }
-    api.getComments(showDetail.imdbID,showDetail.Type).then((response) =>{
-        this.setState({reviews : response, loading : true})
-    })
+    this.refreshComments(showDetail.imdbID,showDetail.Type)
   }
   
   render() {
     const { navigation } = this.props;
     const show = this.state.show;
     const user = this.state.userId;
-    console.log(user)
     return (
       <ScrollView style={styles.mainContainer}>
         <Image style={styles.cover} 
@@ -81,9 +85,15 @@ export default class ShowScreen extends React.Component {
         <View style={styles.reviewsHeader}>
           <Text style={styles.reviews}>Reseñas</Text>
           <Button
+            title={"Actualizar"}
+            onPress={() => {
+                this.refreshComments(this.state.show.imdbID,this.state.show.Type)
+            }}
+            />
+          <Button
             title={"Deja tu reseña"}
             onPress={() => {
-              navigation.navigate("Review", {showID: show.imdbID, userID: user});
+              navigation.navigate("Review", {show: show, userID: user, type: show.Type});
             }}
           />
         </View>

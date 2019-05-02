@@ -126,7 +126,7 @@ export default class RegisterScreen extends Component {
           onPress={() => {
             if ((!(!this.state.email || /^\s*$/.test(this.state.email))) && !((!this.state.password || /^\s*$/.test(this.state.password)))) {
               if (this.validateEmail(this.state.email)){
-                this.register(this.state.email,this.state.password,this.state.name,this.state.lastname)
+                this.register(this.state.email,this.state.password,this.state.firstname,this.state.lastname)
               } else {
                 this.setState({emailFormatError : true})
               }
@@ -185,6 +185,7 @@ const styles = StyleSheet.create({
     flex : 1,
     justifyContent: 'center',
     marginTop:10,
+    marginRight:40,
     height :400,
     width:400,
   },

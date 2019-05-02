@@ -16,7 +16,7 @@ const GET_COMMENTS_BY_MOVIE= "https://pelispedio.herokuapp.com/api/movies/[movie
 const COMMENT_MOVIE_ENDPOINT = "https://pelispedio.herokuapp.com/api/movies/[movieID]/comment"
 const GET_COMMENTS_BY_SERIES= "https://pelispedio.herokuapp.com/api/series/[seriesID]/comments"
 const COMMENT_SERIES_ENDPOINT = "https://pelispedio.herokuapp.com/api/series/[seriesID]/comment"
-const SEARCH_SERIES_HEROKU = "https://pelispedio.herokuapp.com//api/series/"
+const SEARCH_SERIES_HEROKU = "https://pelispedio.herokuapp.com/api/series/"
 const UPDATE_USER_ENDPOINT = "https://pelispedio.herokuapp.com/api/profile/"
 const LOG_IN_ENDPOINT = "https://pelispedio.herokuapp.com/api/login"
 const GET_USER_ENDPOINT = "https://pelispedio.herokuapp.com/api/profile"
@@ -59,6 +59,44 @@ class ApiController extends React.Component {
             let response = await fetch (finalUrl);
             const data = await response.json();
             return data
+        } catch (err){
+            console.log(err)
+        }
+    }
+    async createShow(show,type) { 
+        var showData = {
+            year:show.Year,
+            poster:show.Poster,
+            director:show.Director,
+            type:show.Type,
+            actors: show.Actors,
+            plot: show.Plot,
+            runtime:show.Runtime,
+            imdbID:show.imdbID,
+            title:show.Title,
+            genre:show.Genre  
+        }
+        let finalUrl = "";
+        switch (type) {
+            case OMDB_TYPE_MOVIE:
+                 finalUrl = SEARCH_MOVIES_ENDPOINT_HEROKU;
+                break;
+            case OMDB_TYPE_SERIES:
+                finalUrl = finalUrl = SEARCH_SERIES_HEROKU;
+                break;
+            default:
+                break;
+          }            
+          const config = {
+            method: 'POST',
+            mode: "cors",
+            headers:{ 'Content-Type': 'application/json'},
+            body: JSON.stringify(showData) // data can be `string` or {object}!
+        }     
+        try {
+            let response = await fetch (finalUrl,config);
+            const data = await response.json();
+            return data.Search
         } catch (err){
             console.log(err)
         }
@@ -166,7 +204,18 @@ class ApiController extends React.Component {
         }
     }
     async commentShow(showID, comment, score, userID,type) {
-        var review = {userid: userID, score: score, comment: comment }
+        var review = {
+            userid: userID, 
+            score: score , 
+            comment: comment
+        }
+            console.log(
+                "comment: " + comment,
+                "score: " + score,
+                "type: " + type,
+                "showId" + showID,
+                "user" + userID
+              )
         let finalUrl = ""
         switch (type) {
             case OMDB_TYPE_MOVIE:
@@ -180,6 +229,7 @@ class ApiController extends React.Component {
         }
         const config = {
             method: 'POST',
+            mode: "cors",
             headers:{ 'Content-Type': 'application/json'},
             body: JSON.stringify(review) // data can be `string` or {object}!
         }
@@ -196,7 +246,7 @@ class ApiController extends React.Component {
         const config = {
             method: 'POST', 
             headers:{ 'Content-Type': 'application/json'},
-            body: JSON.stringify({user : userID}) // data can be `string` or {object}!
+            body: JSON.stringify({userid : userID}) // data can be `string` or {object}!
         }
         try {
             let response = await fetch (finalUrl,config);

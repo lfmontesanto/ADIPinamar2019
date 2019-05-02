@@ -17,6 +17,7 @@ export default class ShowsList extends React.Component {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    marginTop: 15
+    marginTop: 15,
+    marginBottom:30,
   }
 });

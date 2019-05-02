@@ -14,9 +14,10 @@ export default class ReviewScreen extends React.Component {
   state = {
     score: "",
     comment: "",
-    showId: "",
+    show:{},
     userId: "",
-    type: "movie"
+    type: "",
+    buttonDisabled:false
   };
   handleScore = (text) => {
     this.setState({ score: text });
@@ -30,23 +31,28 @@ export default class ReviewScreen extends React.Component {
       console.log(
         "comment: " + comment,
         "score: " + score,
-        "type: " + type
+        "type: " + type,
+        "showId" + showId,
+        "user" + userId
       )
+      api.createShow(this.state.show,this.state.show.Type)
       api.commentShow(showId, comment, score, userId, type).then((response) =>{
         if (response.ok == true) {
           alert("Review saved :) " );
         } else {
           alert("Error saving review");
         }
-      })
+      }).then(()=>{this.setState({buttonDisabled : false})})
     }
   }
   componentWillMount() {
     const navigation = this.props.navigation;
     const user = navigation.getParam("userID")
-    const show = navigation.getParam("showID")
+    const show = navigation.getParam("show")
+    const type = navigation.getParam("type")
+    this.setState({type:type })
     this.setState({userId: user})
-    this.setState({showId: show})
+    this.setState({show: show})
     console.log(show)
     console.log(user)
   }
@@ -85,8 +91,10 @@ export default class ReviewScreen extends React.Component {
           <Button
             style={styles.buttons}
             title={"Enviar"}
+            disabled={this.state.buttonDisabled}
             onPress={() => {
-              this.saveReview(this.state.score, this.state.comment, this.state.showId, this.state.userId, this.state.type);
+              this.setState({buttonDisabled : true})
+              this.saveReview(this.state.score, this.state.comment, this.state.show.imdbID, this.state.userId, this.state.type);
             }}
           />
         </View>
@@ -94,7 +102,6 @@ export default class ReviewScreen extends React.Component {
     );
   }
 }
-
 const styles = StyleSheet.create({
   title: {
     fontSize: 24,
